@@ -5,7 +5,7 @@ public class Index {
 
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		
 		ManipulaArquivo ma = new ManipulaArquivo();//cria objeto classe 
 	//	System.out.println("Formiga procurando a�ucar... ");
@@ -22,13 +22,12 @@ public class Index {
 	}
 	    
 	   try {
-		   ma.movimenta();	
+		   ma.movimenta();
 			
 		   
 	} catch (Exception e) {
 		// TODO: handle exception
 	}
-	    
 
 	    return;
 	}
