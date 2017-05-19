@@ -1,0 +1,6 @@
+AF = (Q, A, T, I, F) a primeira linha do arquivo é um comentário
+Q = {q0, q1}
+A = {a, b, s, 1}
+T = {(q0, s - q1, 1, M), (q0, b - q1, 1, D), (q1, s - q0, 1, M)}
+I = {q0}
+F = { }
