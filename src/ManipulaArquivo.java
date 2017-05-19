@@ -1295,7 +1295,7 @@ public void verificaE(String estado){
 	public boolean movimenta() {
 
 		Tela tela = new Tela();
-		tela.setTitle("Pac-man");
+		tela.setTitle("Pac-man LFA");
 		tela.setSize(800, 700);
 		tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		tela.setVisible(true);
