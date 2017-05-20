@@ -1,16 +1,14 @@
 import Modelo.Pac;
+import Modelo.Som;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.ArrayList;
 
 
 import javax.swing.*;
-import javax.swing.event.SwingPropertyChangeSupport;
 
 
 public class ManipulaArquivo {
@@ -27,6 +25,7 @@ public class ManipulaArquivo {
     public static String[] inicia;
     public static Pac pac;
     public static int score = 0;
+    Som som = new Som();
 
     static ArrayList<ArrayList<String>> listaTrans = new ArrayList<ArrayList<String>>();
     static ArrayList<String> listaTransicao = new ArrayList<String>();
@@ -1307,7 +1306,7 @@ public class ManipulaArquivo {
         return true;
     }
 
-    public boolean movimenta() {
+    public boolean movimenta()  {
 
         Tela tela = new Tela();
         tela.setTitle("   Pac-man LFA    ");
@@ -1339,54 +1338,57 @@ public class ManipulaArquivo {
                     if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#")){
                         if(mesa[pac.getLinha() + 1][pac.getColuna()].equals(".")){
                             score+=10;
-                        }
+                            som.comendoMoeda();
+                        }else som.parado();
                         mesa[pac.getLinha() + 1][pac.getColuna()] = "C";
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setLinha(pac.getLinha() + 1);
                         pac.setDirecao('D');
                         System.out.println(pac.toString());
-
-                    }
+                    }else som.parado();
 
                     break;
                 case 'U': // Para Cima
                     if(!mesa[pac.getLinha() - 1][pac.getColuna()].equals("#")) {
                         if(mesa[pac.getLinha() -1][pac.getColuna()].equals(".")){
                             score+=10;
-                        }
+                            som.comendoMoeda();
+                        }else som.parado();
                         mesa[pac.getLinha() - 1][pac.getColuna()] = "C";
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setLinha(pac.getLinha() - 1);
                         pac.setDirecao('U');
                         System.out.println(pac.toString());
 
-                    }
+                    }else som.parado();
                     break;
                 case 'L': //Esquerda
                     if(!mesa[pac.getLinha()][pac.getColuna() - 1].equals("#")) {
                         if(mesa[pac.getLinha()][pac.getColuna() -1].equals(".")){
                             score+=10;
-                        }
+                            som.comendoMoeda();
+                        }else som.parado();
                         mesa[pac.getLinha()][pac.getColuna() - 1] = "C";
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(pac.getColuna() - 1);
                         pac.setDirecao('L');
                         System.out.println(pac.toString());
 
-                    }
+                    }else som.parado();
                     break;
                 case 'R': //Direita
                     if(!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")){
                         if(mesa[pac.getLinha()][pac.getColuna() + 1].equals(".")){
                             score+=10;
-                        }
+                            som.comendoMoeda();
+                        }else som.parado();
                     mesa[pac.getLinha()][pac.getColuna() + 1] = "C";
                     mesa[pac.getLinha()][pac.getColuna()] = " ";
                     pac.setColuna(pac.getColuna() + 1);
                     pac.setDirecao('R');
                     System.out.println(pac.toString());
-                    ;
-                }
+
+                } else som.parado();
                     break;
             }
 
@@ -1416,9 +1418,6 @@ public class ManipulaArquivo {
                     case KeyEvent.VK_DOWN:  //Baixo
                         if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#")) {
                             if (pac.getDirecao() != 'D'){
-                                mesa[pac.getLinha() + 1][pac.getColuna()] = "C";
-                                mesa[pac.getLinha()][pac.getColuna()] = " ";
-                                pac.setLinha(pac.getLinha() + 1);
                                 pac.setDirecao('D');
                                 System.out.println(pac.toString());
                             }
@@ -1427,9 +1426,6 @@ public class ManipulaArquivo {
                     case KeyEvent.VK_UP: //Cima
                         if(!mesa[pac.getLinha() - 1][pac.getColuna()].equals("#")) {
                             if (pac.getDirecao() != 'U') {
-                                mesa[pac.getLinha() - 1][pac.getColuna()] = "C";
-                                mesa[pac.getLinha()][pac.getColuna()] = " ";
-                                pac.setLinha(pac.getLinha() - 1);
                                 pac.setDirecao('U');
                                 System.out.println(pac.toString());
                             }
@@ -1438,9 +1434,6 @@ public class ManipulaArquivo {
                     case KeyEvent.VK_LEFT: //Esquerda
                         if(!mesa[pac.getLinha()][pac.getColuna() - 1].equals("#")) {
                             if (pac.getDirecao() != 'L') {
-                                mesa[pac.getLinha()][pac.getColuna() - 1] = "C";
-                                mesa[pac.getLinha()][pac.getColuna()] = " ";
-                                pac.setColuna(pac.getColuna() - 1);
                                 pac.setDirecao('L');
                                 System.out.println(pac.toString());
                             }
@@ -1449,9 +1442,6 @@ public class ManipulaArquivo {
                     case KeyEvent.VK_RIGHT:  //Direita
                         if(!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")) {
                             if (pac.getDirecao() != 'R') {
-                                mesa[pac.getLinha()][pac.getColuna() + 1] = "C";
-                                mesa[pac.getLinha()][pac.getColuna()] = " ";
-                                pac.setColuna(pac.getColuna() + 1);
                                 pac.setDirecao('R');
                                 System.out.println(pac.toString());
                             }
