@@ -25,7 +25,9 @@ public class ManipulaArquivo {
     public static String[] inicia;
     public static Pac pac;
     public static int score = 0;
+
     Som som = new Som();
+    private static boolean ligaSom = false;
 
     static ArrayList<ArrayList<String>> listaTrans = new ArrayList<ArrayList<String>>();
     static ArrayList<String> listaTransicao = new ArrayList<String>();
@@ -1127,49 +1129,19 @@ public class ManipulaArquivo {
             // ################################################### Barreira
             // ################################################
             linha = lerArqMesa.readLine(); // Le 3� linha
-            linha = linha.replaceAll("[(]", "");
-
             linha = limpaString(linha);
 
-            temp = new String[254];
-            temp = linha.split(" ");
-
-            String[] cordenadas = new String[254];
-
-            int aux = 0;
-            for (int i = 0; i < temp.length; i++)
-                if (!temp[i].equals("")) {
-                    cordenadas[aux] = temp[i];
-                    aux++;
-                }
-            int tamCoo = aux;
-
-            for (int i = 0; i < tamCoo; ) {
-
-                if (cordenadas[i].equals(cordenadas[i + 2])) {
-                    for (int j = Integer.parseInt(cordenadas[i + 1]); j < Integer
-                            .parseInt(cordenadas[i + 3]) + 1; j++) {
-                        mesa[Integer.parseInt(cordenadas[i])][j] = "#";
-                    }
-
-                }
-
-                if (cordenadas[i + 1].equals(cordenadas[i + 3])) {
-                    for (int j = Integer.parseInt(cordenadas[i]); j < Integer
-                            .parseInt(cordenadas[i + 2]) + 1; j++) {
-                        mesa[j][Integer.parseInt(cordenadas[i + 1])] = "#";
-                    }
-                }
-
-                i = i + 4;
+            montaBarreira(linha);
+            linha = lerArqMesa.readLine();
+            while (linha.charAt(0) != 'A'){
+                linha = limpaString(linha);
+                montaBarreira(linha);
+                linha = lerArqMesa.readLine();
             }
-
             // ################################################### A�ucar
             // ################################################
-            linha = lerArqMesa.readLine(); // Le 4� linha
-
-            linha = linha.replaceAll("[(]", "");
-
+            String[] cordenadas;
+            int aux;
             linha = limpaString(linha);
 
             temp = new String[254];
@@ -1187,8 +1159,6 @@ public class ManipulaArquivo {
 
             // ############################################################################
             linha = lerArqMesa.readLine(); // Le Ultima linha
-            linha = linha.replaceAll("[(]", "");
-
             linha = limpaString(linha);
             temp = new String[254];
             temp = linha.split(" ");
@@ -1208,7 +1178,7 @@ public class ManipulaArquivo {
             // ####################################################################################################
             for (int i = 0; i < qtdAcucar * 2; ) {
                 mesa[Integer.parseInt(cordenadas[i])][Integer
-                        .parseInt(cordenadas[i + 1])] = "a";
+                        .parseInt(cordenadas[i + 1])] = "o";
                 i = i + 2;
             }
 
@@ -1220,6 +1190,41 @@ public class ManipulaArquivo {
         }
 
         return true;
+    }
+
+    private void montaBarreira(String linha) {
+        String[] temp;
+        linha = limpaString(linha);
+        temp = linha.split(" ");
+        String[] cordenadas = new String[254];
+
+        int aux = 0;
+        for (int i = 0; i < temp.length; i++)
+            if (!temp[i].equals("")) {
+                cordenadas[aux] = temp[i];
+                aux++;
+            }
+        int tamCoo = aux;
+
+        for (int i = 0; i < tamCoo; ) {
+
+            if (cordenadas[i].equals(cordenadas[i + 2])) {
+                for (int j = Integer.parseInt(cordenadas[i + 1]); j < Integer
+                        .parseInt(cordenadas[i + 3]) + 1; j++) {
+                    mesa[Integer.parseInt(cordenadas[i])][j] = "#";
+                }
+
+            }
+
+            if (cordenadas[i + 1].equals(cordenadas[i + 3])) {
+                for (int j = Integer.parseInt(cordenadas[i]); j < Integer
+                        .parseInt(cordenadas[i + 2]) + 1; j++) {
+                    mesa[j][Integer.parseInt(cordenadas[i + 1])] = "#";
+                }
+            }
+
+            i = i + 4;
+        }
     }
 
     private String imprimeMesa() {
@@ -1242,6 +1247,7 @@ public class ManipulaArquivo {
     }
 
     private String limpaString(String linha) {
+        linha = linha.replaceAll("[(]", "");
         linha = linha.replaceAll("[)]", "");
         linha = linha.replaceAll("[,]", " ");
         linha = linha.replaceAll("[-]", "");
@@ -1338,22 +1344,22 @@ public class ManipulaArquivo {
                     if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#")){
                         if(mesa[pac.getLinha() + 1][pac.getColuna()].equals(".")){
                             score+=10;
-                            som.comendoMoeda();
-                        }else som.parado();
+                            if(ligaSom) som.comendoMoeda();
+                        }else if(ligaSom) som.parado();
                         mesa[pac.getLinha() + 1][pac.getColuna()] = "C";
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setLinha(pac.getLinha() + 1);
                         pac.setDirecao('D');
                         System.out.println(pac.toString());
-                    }else som.parado();
+                    }else if(ligaSom) som.parado();
 
                     break;
                 case 'U': // Para Cima
                     if(!mesa[pac.getLinha() - 1][pac.getColuna()].equals("#")) {
                         if(mesa[pac.getLinha() -1][pac.getColuna()].equals(".")){
                             score+=10;
-                            som.comendoMoeda();
-                        }else som.parado();
+                            if(ligaSom) som.comendoMoeda();
+                        }else if(ligaSom)  som.parado();
                         mesa[pac.getLinha() - 1][pac.getColuna()] = "C";
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setLinha(pac.getLinha() - 1);
@@ -1366,29 +1372,29 @@ public class ManipulaArquivo {
                     if(!mesa[pac.getLinha()][pac.getColuna() - 1].equals("#")) {
                         if(mesa[pac.getLinha()][pac.getColuna() -1].equals(".")){
                             score+=10;
-                            som.comendoMoeda();
-                        }else som.parado();
+                            if(ligaSom)  som.comendoMoeda();
+                        }else if(ligaSom) som.parado();
                         mesa[pac.getLinha()][pac.getColuna() - 1] = "C";
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(pac.getColuna() - 1);
                         pac.setDirecao('L');
                         System.out.println(pac.toString());
 
-                    }else som.parado();
+                    }else if(ligaSom) som.parado();
                     break;
                 case 'R': //Direita
                     if(!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")){
                         if(mesa[pac.getLinha()][pac.getColuna() + 1].equals(".")){
                             score+=10;
-                            som.comendoMoeda();
-                        }else som.parado();
+                            if(ligaSom) som.comendoMoeda();
+                        }else if(ligaSom)  som.parado();
                     mesa[pac.getLinha()][pac.getColuna() + 1] = "C";
                     mesa[pac.getLinha()][pac.getColuna()] = " ";
                     pac.setColuna(pac.getColuna() + 1);
                     pac.setDirecao('R');
                     System.out.println(pac.toString());
 
-                } else som.parado();
+                } else if(ligaSom) som.parado();
                     break;
             }
 
