@@ -1113,11 +1113,13 @@ public class ManipulaArquivo {
 
             for (int i = 0; i < linhas + 2; i++) {
                 for (int j = 0; j < colunas + 2; j++) {
-                    if (i == 0)
+                    if ((i == (linhas+1)/2  && j == 0) || (i == (linhas+1)/2  && j == colunas+1))
+                        mesa[i][j] = " ";
+                    else if (i == 0)
                         mesa[i][j] = "#";
                     else if (j == 0)
                         mesa[i][j] = "#";
-                    else if (i == linhas + 1)
+                    else if (i == linhas+1 )
                         mesa[i][j] = "#";
                     else if (j == colunas + 1)
                         mesa[i][j] = "#";
@@ -1369,6 +1371,12 @@ public class ManipulaArquivo {
                     }else som.parado();
                     break;
                 case 'L': //Esquerda
+                    if(pac.getColuna() == 0){
+                        mesa[pac.getLinha()][pac.getColuna()] = " ";
+                        pac.setColuna(colunas+1);
+                        break;
+                    }
+
                     if(!mesa[pac.getLinha()][pac.getColuna() - 1].equals("#")) {
                         if(mesa[pac.getLinha()][pac.getColuna() -1].equals(".")){
                             score+=10;
@@ -1383,6 +1391,12 @@ public class ManipulaArquivo {
                     }else if(ligaSom) som.parado();
                     break;
                 case 'R': //Direita
+                    if(pac.getColuna() == colunas+1){
+                        mesa[pac.getLinha()][pac.getColuna()] = " ";
+                        pac.setColuna(0);
+                        break;
+                    }
+
                     if(!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")){
                         if(mesa[pac.getLinha()][pac.getColuna() + 1].equals(".")){
                             score+=10;
@@ -1403,7 +1417,7 @@ public class ManipulaArquivo {
 
             try {
                 //Velocidade de execução
-                Thread.sleep(300);
+                Thread.sleep(200);
             } catch (Exception e) {
                 // TODO: handle exception
             }
