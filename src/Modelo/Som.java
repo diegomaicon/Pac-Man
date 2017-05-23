@@ -9,6 +9,7 @@ import javax.sound.sampled.*;
  */
 public class Som {
     Clip comendo;
+    Clip fruit;
 
     /* Manter o controle de se ou não o som de comer está jogando */
     boolean stopped;
@@ -24,6 +25,14 @@ public class Som {
             audioIn = AudioSystem.getAudioInputStream(url);
             comendo = AudioSystem.getClip();
             comendo.open(audioIn);
+
+
+
+            // Pacman Fruta som
+            url = this.getClass().getClassLoader().getResource("Audio/fruit.wav");
+            audioIn = AudioSystem.getAudioInputStream(url);
+            fruit = AudioSystem.getClip();
+            fruit.open(audioIn);
         }catch(Exception e){}
     }
 
@@ -32,7 +41,6 @@ public class Som {
         /* Se já estiver jogando, não comece a tocar novamente! */
         if (!stopped)
             return;
-
         stopped=false;
         comendo.stop();
         comendo.setFramePosition(0);
@@ -43,5 +51,11 @@ public class Som {
         stopped=true;
         comendo.stop();
         comendo.setFramePosition(0);
+    }
+
+    public void comendoFruta(){
+        fruit.stop();
+        fruit.setFramePosition(0);
+        fruit.loop(0);
     }
 }
