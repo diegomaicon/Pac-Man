@@ -28,11 +28,15 @@ public class Execute {
 
     Som som = new Som();
     //Ativa e desativa som
-    private static boolean ligaSom = true;
+    private static boolean ligaSom = false;
 
     static ArrayList<ArrayList<String>> listaTrans = new ArrayList<ArrayList<String>>();
     static ArrayList<String> listaTransicao = new ArrayList<String>();
 
+    /**
+     *  Lê arquivo de mexa.txt, e monta matriz com barreiras, pacman, frutas.
+     * @return
+     */
     public boolean carregarMesa() {
 
         String nome = "mesa.txt";// entrada.nextLine();
@@ -142,6 +146,9 @@ public class Execute {
         return true;
     }
 
+    /**
+     * Monta casinha de dos Fantasma
+     */
     private void casaGhosts() {
         mesa[9][18]="-";
         mesa[9][19]="-";
@@ -149,12 +156,12 @@ public class Execute {
         mesa[10][18]=" ";
         mesa[10][19]=" ";
         mesa[10][20]=" ";
-        mesa[11][17]=" ";
-        mesa[11][18]=" ";
-        mesa[11][19]=" ";
-        mesa[11][20]=" ";
     }
 
+    /**
+     * Monta barreira de cada linha lida do Arquivo
+     * @param linha
+     */
     private void montaBarreira(String linha) {
         String[] temp;
         linha = limpaString(linha);
@@ -190,6 +197,10 @@ public class Execute {
         }
     }
 
+    /**
+     * Imprime mesa na Tela
+     * @return
+     */
     private String imprimeMesa() {
         String print = "";
 
@@ -209,6 +220,11 @@ public class Execute {
         return print;
     }
 
+    /**
+     * Retira caracter especiais da String, do arquivo mesa.txt
+     * @param linha
+     * @return
+     */
     private String limpaString(String linha) {
         linha = linha.replaceAll("[(]", "");
         linha = linha.replaceAll("[)]", "");
@@ -274,6 +290,11 @@ public class Execute {
 
         return true;
     }
+
+    /**
+     *  Realiza movimento de do Pacman
+     * @return
+     */
     public boolean movimenta() {
 
         Tela tela = new Tela();
@@ -286,21 +307,21 @@ public class Execute {
         tela.texto.setFont(new Font("Consolas", Font.BOLD, 20));
         tela.texto.setText(imprimeMesa());
         tela.label.setText("Score : " + score);
+
         verificaDirecional(tela);
 
         int cont = 0;
-
+        MovimentoGhost.init();
         do {
-            MovimentoGhost.MovimentoGhost();
+           MovimentoGhost.MovimentoGhostLilas();
             switch (pac.getDirecao()) {
-
                 case 'D': // Para Baixo
                     if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#") && !mesa[pac.getLinha() + 1][pac.getColuna()].equals("-")) {
                         if (mesa[pac.getLinha() + 1][pac.getColuna()].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
                         } else if (ligaSom) som.parado();
-
+                        //Bonus de 100 pontos
                         if (mesa[pac.getLinha() + 1][pac.getColuna()].equals("o")) {
                             score += 100;
                             if (ligaSom) {
@@ -314,15 +335,22 @@ public class Execute {
                         pac.setDirecao('D');
                         System.out.println(pac.toString());
                     } else if (ligaSom) som.parado();
-
+                    //Se achou Fantasma Lilas {$}
+                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
+                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                        tela.gameOver.setVisible(true);
+                        tela.texto.setText(imprimeMesa());
+                        return false;
+                    }
                     break;
+
                 case 'U': // Para Cima
                     if (!mesa[pac.getLinha() - 1][pac.getColuna()].equals("#")) {
                         if (mesa[pac.getLinha() - 1][pac.getColuna()].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
                         } else if (ligaSom) som.parado();
-
+                        //Bonus de 100 pontos
                         if (mesa[pac.getLinha() - 1][pac.getColuna()].equals("o")) {
                             score += 100;
                             if (ligaSom) {
@@ -336,9 +364,16 @@ public class Execute {
                         System.out.println(pac.toString());
 
                     } else som.parado();
+                    //Se achou Fantasma Lilas {$}
+                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
+                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                        tela.gameOver.setVisible(true);
+                        tela.texto.setText(imprimeMesa());
+                        return false;
+                    }
                     break;
                 case 'L': //Esquerda
-                    if (pac.getColuna() == 0) {
+                    if (pac.getColuna() == 1 && mesa[pac.getLinha()][pac.getColuna()-1].equals(" ")) {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(colunas + 1);
                         break;
@@ -348,7 +383,7 @@ public class Execute {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
                         } else if (ligaSom) som.parado();
-
+                        //Bonus de 100 pontos
                         if (mesa[pac.getLinha()][pac.getColuna()-1].equals("o")) {
                             score += 100;
                             if (ligaSom) {
@@ -360,22 +395,27 @@ public class Execute {
                         pac.setColuna(pac.getColuna() - 1);
                         pac.setDirecao('L');
                         System.out.println(pac.toString());
-
                     } else if (ligaSom) som.parado();
+                    //Se achou Fantasma Lilas {$}
+                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
+                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")) {
+                        tela.gameOver.setVisible(true);
+                        tela.texto.setText(imprimeMesa());
+                        return false;
+                    }
                     break;
                 case 'R': //Direita
-                    if (pac.getColuna() == colunas + 1) {
+                    if (pac.getColuna() == colunas  && mesa[pac.getLinha()][pac.getColuna() + 1].equals(" ")) {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(0);
                         break;
                     }
-
                     if (!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")) {
                         if (mesa[pac.getLinha()][pac.getColuna() + 1].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
                         } else if (ligaSom) som.parado();
-
+                        //Bonus de 100 pontos
                         if (mesa[pac.getLinha()][pac.getColuna()+1].equals("o")) {
                             score += 100;
                             if (ligaSom) {
@@ -390,6 +430,13 @@ public class Execute {
                         System.out.println(pac.toString());
 
                     } else if (ligaSom) som.parado();
+                    //Se achou Fantasma Lilas {$}
+                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
+                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                        tela.gameOver.setVisible(true);
+                        tela.texto.setText(imprimeMesa());
+                        return false;
+                    }
                     break;
             }
 
@@ -409,6 +456,10 @@ public class Execute {
         return false;
     }
 
+    /**
+     * Verifica qual botão do direcional foi precionado e muda a direção do Pacman
+     * @param tela
+     */
     private void verificaDirecional(Tela tela) {
         tela.texto.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {

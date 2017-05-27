@@ -8,15 +8,27 @@ public class Ghost {
     private int coluna;
     private Character direcao;
     private Character icone;
+    private Character sub;
 
     public Ghost() {
     }
 
-    public Ghost(int linha, int coluna, Character direcao, Character icone) {
+
+    public Character getSub() {
+        return sub;
+    }
+
+    public void setSub(Character sub) {
+        this.sub = sub;
+    }
+
+    public Ghost(int linha, int coluna, Character direcao, Character icone, Character sub) {
         this.linha = linha;
         this.coluna = coluna;
+
         this.direcao = direcao;
         this.icone = icone;
+        this.sub = sub;
     }
 
     public Character getDirecao() {
