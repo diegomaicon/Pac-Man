@@ -311,8 +311,7 @@ public class Execute {
 
         int cont = 0;
         MovimentoGhost.init();
-        MovimentoGhost.MovimentoGhostLilas lilas = new MovimentoGhost.MovimentoGhostLilas();
-        new Thread(lilas).start();
+        new Thread(new MovimentoGhost.MovimentoGhostLilas()).start();
 
         do {
             switch (pac.getDirecao()) {

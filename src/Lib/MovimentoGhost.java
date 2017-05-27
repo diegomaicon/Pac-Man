@@ -25,7 +25,7 @@ public class MovimentoGhost {
 
 
     /**
-     * Fantasma Lilas, muda direção de acordo com direção do Pacman
+     * Classe Fantasma Lilas, muda direção de acordo com direção do Pacman
      */
     public static class MovimentoGhostLilas extends Thread {
 
