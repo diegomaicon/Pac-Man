@@ -4,14 +4,14 @@ import Modelo.Pac;
 import Modelo.Som;
 import bin.Tela;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-
-
-import javax.swing.*;
 
 
 public class Execute {
@@ -298,7 +298,7 @@ public class Execute {
     public boolean movimenta() {
 
         Tela tela = new Tela();
-        tela.setTitle("   Pac-man LFA    ");
+        tela.setTitle("          Pac-man LFA         ");
         tela.setSize(850, 700);
         tela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tela.setVisible(true);
@@ -307,13 +307,14 @@ public class Execute {
         tela.texto.setFont(new Font("Consolas", Font.BOLD, 20));
         tela.texto.setText(imprimeMesa());
         tela.label.setText("Score : " + score);
-
         verificaDirecional(tela);
 
         int cont = 0;
         MovimentoGhost.init();
+        MovimentoGhost.MovimentoGhostLilas lilas = new MovimentoGhost.MovimentoGhostLilas();
+        new Thread(lilas).start();
+
         do {
-           MovimentoGhost.MovimentoGhostLilas();
             switch (pac.getDirecao()) {
                 case 'D': // Para Baixo
                     if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#") && !mesa[pac.getLinha() + 1][pac.getColuna()].equals("-")) {
