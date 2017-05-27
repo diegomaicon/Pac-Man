@@ -84,6 +84,10 @@ public class Execute {
                 montaBarreira(linha);
                 linha = lerArqMesa.readLine();
             }
+            //Porta de saida fantasma
+
+            casaGhosts();
+
             // ################################################### A�ucar
             // ################################################
             String[] cordenadas;
@@ -136,6 +140,19 @@ public class Execute {
         }
 
         return true;
+    }
+
+    private void casaGhosts() {
+        mesa[9][18]="-";
+        mesa[9][19]="-";
+        mesa[10][17]=" ";
+        mesa[10][18]=" ";
+        mesa[10][19]=" ";
+        mesa[10][20]=" ";
+        mesa[11][17]=" ";
+        mesa[11][18]=" ";
+        mesa[11][19]=" ";
+        mesa[11][20]=" ";
     }
 
     private void montaBarreira(String linha) {
@@ -278,7 +295,7 @@ public class Execute {
             switch (pac.getDirecao()) {
 
                 case 'D': // Para Baixo
-                    if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#")) {
+                    if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#") && !mesa[pac.getLinha() + 1][pac.getColuna()].equals("-")) {
                         if (mesa[pac.getLinha() + 1][pac.getColuna()].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
