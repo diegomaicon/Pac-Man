@@ -45,6 +45,8 @@ public class MovimentoGhost {
                     ghostLilas.setDirecao('L');
                 } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")){
                     ghostLilas.setDirecao(pac.getDirecao());
+                } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") || Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals(" ")){
+                    ghostLilas.setDirecao('D');
                 } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")){
                     aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
                     Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
