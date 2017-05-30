@@ -28,7 +28,7 @@ public class Execute {
 
     Som som = new Som();
     //Ativa e desativa som
-    private static boolean ligaSom = false;
+    private static boolean ligaSom = true;
 
     static ArrayList<ArrayList<String>> listaTrans = new ArrayList<ArrayList<String>>();
     static ArrayList<String> listaTransicao = new ArrayList<String>();
@@ -338,6 +338,7 @@ public class Execute {
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                        som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         return false;
@@ -367,6 +368,7 @@ public class Execute {
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                        som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         return false;
@@ -399,6 +401,7 @@ public class Execute {
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")) {
+                        som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         return false;
@@ -433,6 +436,7 @@ public class Execute {
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                        som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         return false;
