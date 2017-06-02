@@ -12,7 +12,7 @@ public class MovimentoGhost {
     private Ghost ghostVermelho1;
     private Ghost ghostVermelho12;
     private static Ghost ghostAzul;
-    private static Ghost ghostLilas = new Ghost(10, 20, 'R', '$', ' ');
+    private static Ghost ghostLilas = new Ghost(10, 20, ' ', '$', ' ');
     private static Ghost ghostLaranja = new Ghost(10, 17, 'D', '@', ' ');
 
     public MovimentoGhost() {
@@ -38,26 +38,15 @@ public class MovimentoGhost {
                         if (Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("-")) {
                             Execute.mesa[ghostLilas.getLinha() - 2][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
                             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = " ";
-                            ghostLilas.setDirecao('D');
                             ghostLilas.setLinha(ghostLilas.getLinha() - 2);
                         } else if (!Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")) {
-                            aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1];
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1] = ghostLilas.getIcone() + "";
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-                            ghostLilas.setSub(aux.charAt(0));
-                            ghostLilas.setColuna(ghostLilas.getColuna() - 1);
-                            ghostLilas.setDirecao('L');
-                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
-                            ghostLilas.setDirecao(pac.getDirecao());
-                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") || Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals(" ")) {
-                            ghostLilas.setDirecao('D');
-                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")) {
-                            aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-                            ghostLilas.setSub(aux.charAt(0));
-                            ghostLilas.setColuna(ghostLilas.getColuna() + 1);
-                            ghostLilas.setDirecao('R');
+                            movEsquerda();
+                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            movBaixo();
+                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            movDireita();
+                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            movBaixo();
                         }
                         break;
 
@@ -65,53 +54,65 @@ public class MovimentoGhost {
                         if (Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("-")) {
                             Execute.mesa[ghostLilas.getLinha() - 2][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
                             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = " ";
-                            ghostLilas.setDirecao('D');
                             ghostLilas.setLinha(ghostLilas.getLinha() - 2);
                         } else if (!Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
-                            aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-                            ghostLilas.setSub(aux.charAt(0));
-                            ghostLilas.setColuna(ghostLilas.getColuna() + 1);
-                            ghostLilas.setDirecao('R');
-                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")) {
-                            ghostLilas.setDirecao(pac.getDirecao());
-                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") || Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("  ")) {
-                            ghostLilas.setDirecao('L');
+                            movDireita();
+                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            movBaixo();
+                        } else if ((Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") || Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("  ")) && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            movBaixo();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
-                            aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1];
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1] = ghostLilas.getIcone() + "";
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-                            ghostLilas.setSub(aux.charAt(0));
-                            ghostLilas.setColuna(ghostLilas.getColuna() - 1);
-                            ghostLilas.setDirecao('L');
+                            movEsquerda();
                         }
                         break;
-                    case 'D':
+                    case 'D': //Descendo
                         if (!Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("-")) {
-                            aux = Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()];
-                            Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-                            ghostLilas.setSub(aux.charAt(0));
-                            ghostLilas.setLinha(ghostLilas.getLinha() + 1);
-                            ghostLilas.setDirecao('D');
-                        } else if (Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("-")) {
-                            ghostLilas.setDirecao('D');
+                            movBaixo();
+                            //Se esta subindo e tem barreira em baixo e emcima
+                        } else if (Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#") && Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("#")) {
+                            if (ghostLilas.getDirecao().equals('L')) {
+                                movEsquerda();
+                            } else if (ghostLilas.getDirecao().equals('R')) {
+                                movDireita();
+                            }
+                            //Se esta subindo e tem barreira emcima
+                        } else if (Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
+                                movEsquerda();
+                            } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")) {
+                                movDireita();
+                            } else {
+                                movDireita();
+                            }
                         }
                         break;
-                    case 'U':
+                    case 'U': //Subindo
+                        //Esta saindo da casinha
                         if (Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("-")) {
                             Execute.mesa[ghostLilas.getLinha() - 2][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
                             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = " ";
-                            ghostLilas.setDirecao('D');
                             ghostLilas.setLinha(ghostLilas.getLinha() - 2);
+                            //Se não tem bairreira embaixo, ghost desce
                         } else if (!Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("#")) {
-                            aux = Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()];
-                            Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
-                            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-                            ghostLilas.setSub(aux.charAt(0));
-                            ghostLilas.setDirecao('D');
-                            ghostLilas.setLinha(ghostLilas.getLinha() - 1);
+                            movCima();
+                            ghostLilas.setDirecao('R');
+                            //Se esta descendo e tem barreira embaixo e emcima
+                        } else if (Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#") && Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("#")) {
+                            if (ghostLilas.getDirecao().equals('L')) {
+                                movEsquerda();
+                            } else if (ghostLilas.getDirecao().equals('R')) {
+                                movDireita();
+                            }
+                            //Se esta descendo e tem barreira embaixo
+                        } else if (Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()].equals("#")) {
+                            if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
+                                movEsquerda();
+                            } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")) {
+                                movDireita();
+                            } else {
+                                movEsquerda();
+                            }
+
                         }
                         break;
                 }
@@ -122,8 +123,47 @@ public class MovimentoGhost {
                 }
             } while (flag);
         }
-    }
 
+        private void movCima() {
+            String aux;
+            aux = Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()];
+            Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
+            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
+            ghostLilas.setSub(aux.charAt(0));
+            ghostLilas.setLinha(ghostLilas.getLinha() - 1);
+            ghostLilas.setDirecao('U');
+        }
+
+        private void movBaixo() {
+            String aux;
+            aux = Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()];
+            Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
+            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
+            ghostLilas.setSub(aux.charAt(0));
+            ghostLilas.setLinha(ghostLilas.getLinha() + 1);
+            ghostLilas.setDirecao('D');
+        }
+
+        private void movEsquerda() {
+            String aux;
+            aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1];
+            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1] = ghostLilas.getIcone() + "";
+            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
+            ghostLilas.setSub(aux.charAt(0));
+            ghostLilas.setColuna(ghostLilas.getColuna() - 1);
+            ghostLilas.setDirecao('L');
+        }
+
+        private static void movDireita() {
+            String aux;
+            aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
+            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
+            Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
+            ghostLilas.setSub(aux.charAt(0));
+            ghostLilas.setColuna(ghostLilas.getColuna() + 1);
+            ghostLilas.setDirecao('R');
+        }
+    }
 }
 
 

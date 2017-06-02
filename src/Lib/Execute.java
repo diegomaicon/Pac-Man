@@ -341,6 +341,7 @@ public class Execute {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
+                        som.gameOver();
                         return false;
                     }
                     break;
@@ -371,6 +372,7 @@ public class Execute {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
+                        som.gameOver();
                         return false;
                     }
                     break;
@@ -404,6 +406,7 @@ public class Execute {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
+                        som.gameOver();
                         return false;
                     }
                     break;
@@ -439,6 +442,7 @@ public class Execute {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
+                        som.gameOver();
                         return false;
                     }
                     break;
