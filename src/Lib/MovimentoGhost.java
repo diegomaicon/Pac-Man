@@ -2,6 +2,7 @@ package Lib;
 
 import Modelo.Ghost;
 
+import static Lib.Execute.colunas;
 import static Lib.Execute.pac;
 
 /**
@@ -11,15 +12,16 @@ public class MovimentoGhost {
 
     private Ghost ghostVermelho1;
     private Ghost ghostVermelho12;
-    private static Ghost ghostAzul;
-    private static Ghost ghostLilas = new Ghost(10, 20, ' ', '$', ' ');
-    private static Ghost ghostLaranja = new Ghost(10, 17, 'D', '@', ' ');
+    private static Ghost ghostAzul = new Ghost(10, 19, ' ', '%', '.');
+    private static Ghost ghostLilas = new Ghost(10, 20, ' ', '$', '.');
+    private static Ghost ghostLaranja = new Ghost(10, 18, ' ', '@', '.');
 
     public MovimentoGhost() {
     }
 
     public static void init() {
         Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
+        Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
         //  Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
     }
 
@@ -28,7 +30,6 @@ public class MovimentoGhost {
      * Classe Fantasma Lilas, muda direção de acordo com direção do Pacman
      */
     public static class MovimentoGhostLilas extends Thread {
-
         public void run() {
             boolean flag = true;
             do {
@@ -39,11 +40,15 @@ public class MovimentoGhost {
                             Execute.mesa[ghostLilas.getLinha() - 2][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
                             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = " ";
                             ghostLilas.setLinha(ghostLilas.getLinha() - 2);
+                        } else if (ghostLilas.getColuna() == 1 && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals(" ")) {
+                            movDireita();
                         } else if (!Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#")) {
                             movEsquerda();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
                             movBaixo();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
+                            movDireita();
+                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals(" ")) {
                             movDireita();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
                             movBaixo();
@@ -55,12 +60,16 @@ public class MovimentoGhost {
                             Execute.mesa[ghostLilas.getLinha() - 2][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
                             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = " ";
                             ghostLilas.setLinha(ghostLilas.getLinha() - 2);
+                        } else if (ghostLilas.getColuna() == colunas && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals(" ")) {
+                            movEsquerda();
                         } else if (!Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
                             movDireita();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
                             movBaixo();
                         } else if ((Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") || Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("  ")) && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
                             movBaixo();
+                        } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals(" ")) {
+                            movEsquerda();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#")) {
                             movEsquerda();
                         }
@@ -129,7 +138,9 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()];
             Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            ghostLilas.setSub(aux.charAt(0));
+            if (aux.charAt(0) != '%') {
+                ghostLilas.setSub(aux.charAt(0));
+            }
             ghostLilas.setLinha(ghostLilas.getLinha() - 1);
             ghostLilas.setDirecao('U');
         }
@@ -139,7 +150,9 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()];
             Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            ghostLilas.setSub(aux.charAt(0));
+            if (aux.charAt(0) != '%') {
+                ghostLilas.setSub(aux.charAt(0));
+            }
             ghostLilas.setLinha(ghostLilas.getLinha() + 1);
             ghostLilas.setDirecao('D');
         }
@@ -149,7 +162,9 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1];
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            ghostLilas.setSub(aux.charAt(0));
+            if (aux.charAt(0) != '%') {
+                ghostLilas.setSub(aux.charAt(0));
+            }
             ghostLilas.setColuna(ghostLilas.getColuna() - 1);
             ghostLilas.setDirecao('L');
         }
@@ -159,11 +174,170 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            ghostLilas.setSub(aux.charAt(0));
+            if (aux.charAt(0) != '%') {
+                ghostLilas.setSub(aux.charAt(0));
+            }
             ghostLilas.setColuna(ghostLilas.getColuna() + 1);
             ghostLilas.setDirecao('R');
         }
     }
+
+    /**
+     * Classe Fantasma Azul, muda direção de Contrária com direção do Pacman
+     */
+    public static class MovimentoGhostAzul extends Thread {
+        public void run() {
+            boolean flag = true;
+            do {
+                String aux = "";
+                switch (pac.getDirecao()) {
+                    case 'R':
+                        if (Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("-")) {
+                            Execute.mesa[ghostAzul.getLinha() - 2][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
+                            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = " ";
+                            ghostAzul.setLinha(ghostAzul.getLinha() - 2);
+                        } else if (ghostAzul.getColuna() == 1 && Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals(" ")) {
+                            movDireita();
+                        } else if (!Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#")) {
+                            movEsquerda();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#") && !Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#")) {
+                            movBaixo();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#") && Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#")) {
+                            movDireita();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals(" ")) {
+                            movDireita();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#") && Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#") && !Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#")) {
+                            movBaixo();
+                        }
+                        break;
+
+                    case 'L':
+                        if (Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("-")) {
+                            Execute.mesa[ghostAzul.getLinha() - 2][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
+                            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = " ";
+                            ghostAzul.setLinha(ghostAzul.getLinha() - 2);
+                        } else if (ghostAzul.getColuna() == colunas && Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals(" ")) {
+                            movEsquerda();
+                        } else if (!Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#")) {
+                            movDireita();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#") && Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#") && !Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#")) {
+                            movBaixo();
+                        } else if ((Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#") || Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("  ")) && !Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#")) {
+                            movBaixo();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals(" ")) {
+                            movEsquerda();
+                        } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#")) {
+                            movEsquerda();
+                        }
+                        break;
+                    case 'U': //Descendo
+                        if (!Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#") && !Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("-")) {
+                            movBaixo();
+                            //Se esta subindo e tem barreira em baixo e emcima
+                        } else if (Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#") && Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("#")) {
+                            if (ghostAzul.getDirecao().equals('L')) {
+                                movEsquerda();
+                            } else if (ghostAzul.getDirecao().equals('R')) {
+                                movDireita();
+                            }
+                            //Se esta subindo e tem barreira emcima
+                        } else if (Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#")) {
+                            if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#")) {
+                                movEsquerda();
+                            } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#")) {
+                                movDireita();
+                            } else {
+                                movDireita();
+                            }
+                        }
+                        break;
+                    case 'D': //Subindo
+                        //Esta saindo da casinha
+                        if (Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("-")) {
+                            Execute.mesa[ghostAzul.getLinha() - 2][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
+                            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = " ";
+                            ghostAzul.setLinha(ghostAzul.getLinha() - 2);
+                            //Se não tem bairreira embaixo, ghost desce
+                        } else if (!Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("#")) {
+                            movCima();
+                            ghostAzul.setDirecao('R');
+                            //Se esta descendo e tem barreira embaixo e emcima
+                        } else if (Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()].equals("#") && Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("#")) {
+                            if (ghostAzul.getDirecao().equals('L')) {
+                                movEsquerda();
+                            } else if (ghostAzul.getDirecao().equals('R')) {
+                                movDireita();
+                            }
+                            //Se esta descendo e tem barreira embaixo
+                        } else if (Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()].equals("#")) {
+                            if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1].equals("#")) {
+                                movEsquerda();
+                            } else if (Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1].equals("#")) {
+                                movDireita();
+                            } else {
+                                movEsquerda();
+                            }
+
+                        }
+                        break;
+                }
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } while (flag);
+        }
+
+        private void movCima() {
+            String aux;
+            aux = Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()];
+            Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
+            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
+            if (aux.charAt(0) != '$') {
+                ghostAzul.setSub(aux.charAt(0));
+            }
+            ghostAzul.setLinha(ghostAzul.getLinha() - 1);
+            ghostAzul.setDirecao('U');
+        }
+
+        private void movBaixo() {
+            String aux;
+            aux = Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()];
+            Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
+            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
+            if (aux.charAt(0) != '$') {
+                ghostAzul.setSub(aux.charAt(0));
+            }
+            ghostAzul.setLinha(ghostAzul.getLinha() + 1);
+            ghostAzul.setDirecao('D');
+        }
+
+        private void movEsquerda() {
+            String aux;
+            aux = Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1];
+            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1] = ghostAzul.getIcone() + "";
+            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
+            if (aux.charAt(0) != '$') {
+                ghostAzul.setSub(aux.charAt(0));
+            }
+            ghostAzul.setColuna(ghostAzul.getColuna() - 1);
+            ghostAzul.setDirecao('L');
+        }
+
+        private static void movDireita() {
+            String aux;
+            aux = Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1];
+            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1] = ghostAzul.getIcone() + "";
+            Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
+            if (aux.charAt(0) != '$') {
+                ghostAzul.setSub(aux.charAt(0));
+            }
+            ghostAzul.setColuna(ghostAzul.getColuna() + 1);
+            ghostAzul.setDirecao('R');
+        }
+    }
+
 }
 
 

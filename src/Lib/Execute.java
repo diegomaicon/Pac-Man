@@ -312,6 +312,7 @@ public class Execute {
         int cont = 0;
         MovimentoGhost.init();
         new Thread(new MovimentoGhost.MovimentoGhostLilas()).start();
+        new Thread(new MovimentoGhost.MovimentoGhostAzul()).start();
 
         do {
             switch (pac.getDirecao()) {
@@ -337,7 +338,9 @@ public class Execute {
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
@@ -368,7 +371,9 @@ public class Execute {
                     } else som.parado();
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
@@ -402,7 +407,9 @@ public class Execute {
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
@@ -438,7 +445,9 @@ public class Execute {
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna()-1].equals("$") ||  mesa[pac.getLinha()][pac.getColuna()+1].equals("$")){
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
                         som.parado();
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
