@@ -314,9 +314,8 @@ public class Execute {
         Thread lilas = new Thread(new MovimentoGhost.MovimentoGhostLilas());
         Thread azul = new Thread(new MovimentoGhost.MovimentoGhostAzul());
         Thread laranja = new Thread(new MovimentoGhost.MovimentoGhostLaranja());
-        laranja.start();
-        azul.start();
-        lilas.start();
+        Thread vermelho1 = new Thread(new MovimentoGhost.MovimentoGhostVermelho1());
+        startThreads(lilas, azul, laranja, vermelho1);
         do {
 
             switch (pac.getDirecao()) {
@@ -346,9 +345,11 @@ public class Execute {
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
                         som.parado();
-                        paraGhosts(lilas, azul, laranja);
+                        paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -382,9 +383,11 @@ public class Execute {
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
                         som.parado();
-                        paraGhosts(lilas, azul, laranja);
+                        paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -421,9 +424,11 @@ public class Execute {
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
                         som.parado();
-                        paraGhosts(lilas, azul, laranja);
+                        paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -462,9 +467,11 @@ public class Execute {
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
                         som.parado();
-                        paraGhosts(lilas, azul, laranja);
+                        paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -489,10 +496,18 @@ public class Execute {
         return false;
     }
 
-    private void paraGhosts(Thread lilas, Thread azul, Thread laranja) {
+    private void startThreads(Thread lilas, Thread azul, Thread laranja, Thread vernelho1) {
+        laranja.start();
+        azul.start();
+        lilas.start();
+        vernelho1.start();
+    }
+
+    private void paraGhosts(Thread lilas, Thread azul, Thread laranja, Thread vermelho1) {
         lilas.interrupt();
         azul.interrupt();
         laranja.interrupt();
+        vermelho1.interrupt();
     }
 
     /**

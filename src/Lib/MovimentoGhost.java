@@ -10,7 +10,7 @@ import static Lib.Execute.pac;
  */
 public class MovimentoGhost {
 
-    private Ghost ghostVermelho1;
+    private static Ghost ghostVermelho1 = new Ghost(10, 17, ' ', 'K', '.');
     private Ghost ghostVermelho12;
     private static Ghost ghostAzul = new Ghost(10, 19, ' ', '%', '.');
     private static Ghost ghostLilas = new Ghost(10, 20, ' ', '$', '.');
@@ -23,6 +23,7 @@ public class MovimentoGhost {
         Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
         Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
         Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
+        Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getIcone() + "";
     }
 
 
@@ -139,11 +140,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()];
             Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -157,11 +158,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()];
             Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -175,11 +176,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1];
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -193,11 +194,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -318,11 +319,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()];
             Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -337,11 +338,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()];
             Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -355,11 +356,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1];
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -373,11 +374,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1];
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@' && aux.charAt(0) != 'K') {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -446,11 +447,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()];
             Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
             Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != 'K') {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -464,11 +465,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()];
             Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
             Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != 'K') {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -482,11 +483,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1];
             Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1] = ghostLaranja.getIcone() + "";
             Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != 'K') {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -500,11 +501,11 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1];
             Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1] = ghostLaranja.getIcone() + "";
             Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
-            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != 'K') {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    this.interrupt();
+                    Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -578,6 +579,161 @@ public class MovimentoGhost {
             return coordenada;
         }
 
+
+    }
+
+    public static class MovimentoGhostVermelho1 extends Thread {
+        public void run() {
+
+            int i = 0;
+            boolean flag = true;
+            boolean comecou = false;
+            char dir = 'u';
+            do {
+                System.out.println("aqui");
+                //System.out.println("linha:"+pac.getLinha()+" Coluna:"+pac.getColuna());
+                if ((pac.getLinha() != 10) || (pac.getColuna() != 4)) {
+                    comecou = true;
+                }
+
+                while (comecou) {
+                    System.out.println("começou");
+                    if (i == 0) {
+                        movDireita();
+                        i++;
+                    } else if (i == 1) {
+                        movCima();
+                        i++;
+                    } else if (i == 2) {
+                        movCima();
+                        i++;
+                        dir = 'u';
+                    } else {
+                        if ((dir == 'u') && ((!Execute.mesa[ghostVermelho1.getLinha() - 1][ghostVermelho1.getColuna()].equals("#")))) {
+                            movCima();
+                        } else if ((dir == 'u') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1].equals("#"))) || (dir == 'r') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1].equals("#")))) {
+                            movDireita();
+                            dir = 'r';
+                        } else if ((dir == 'r') && ((!Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()].equals("#"))) || (dir == 'd') && ((!Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()].equals("#")))) {
+                            movBaixo();
+                            dir = 'd';
+                        } else if ((dir == 'd') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1].equals("#"))) || (dir == 'l') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1].equals("#")))) {
+                            movEsquerda();
+                            dir = 'l';
+                        } else {
+
+                            if ((dir == 'l') && ((!Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()].equals("#")))) {
+                                movBaixo();
+                                dir = 'd';
+                            } else if ((dir == 'l') && ((!Execute.mesa[ghostVermelho1.getLinha() - 1][ghostVermelho1.getColuna()].equals("#")))) {
+                                movCima();
+                                dir = 'u';
+                            } else if ((dir == 'u') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1].equals("#")))) {
+                                movDireita();
+                                dir = 'r';
+                            } else if ((dir == 'u') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1].equals("#")))) {
+                                movEsquerda();
+                                dir = 'l';
+                            } else if ((dir == 'r') && ((!Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()].equals("#")))) {
+                                movBaixo();
+                                dir = 'd';
+                            } else if ((dir == 'r') && ((!Execute.mesa[ghostVermelho1.getLinha() - 1][ghostVermelho1.getColuna()].equals("#")))) {
+                                movCima();
+                                dir = 'u';
+                            } else if ((dir == 'd') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1].equals("#")))) {
+                                movEsquerda();
+                                dir = 'l';
+                            } else if ((dir == 'd') && ((!Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1].equals("#")))) {
+                                movDireita();
+                                dir = 'r';
+                            }
+                        }
+                    }
+                    try {
+                        sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            } while (flag);
+
+
+        }
+
+        private void movCima() {
+            String aux;
+            aux = Execute.mesa[ghostVermelho1.getLinha() - 1][ghostVermelho1.getColuna()];
+            Execute.mesa[ghostVermelho1.getLinha() - 1][ghostVermelho1.getColuna()] = ghostVermelho1.getIcone() + "";
+            Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    Thread.interrupted();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostVermelho1.setLinha(ghostVermelho1.getLinha() - 1);
+            ghostVermelho1.setDirecao('U');
+        }
+
+        private void movBaixo() {
+            String aux;
+            aux = Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()];
+            Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()] = ghostVermelho1.getIcone() + "";
+            Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    Thread.interrupted();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostVermelho1.setLinha(ghostVermelho1.getLinha() + 1);
+            ghostVermelho1.setDirecao('D');
+        }
+
+        private void movEsquerda() {
+            String aux;
+            aux = Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1];
+            Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1] = ghostVermelho1.getIcone() + "";
+            Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    Thread.interrupted();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostVermelho1.setColuna(ghostVermelho1.getColuna() - 1);
+            ghostVermelho1.setDirecao('L');
+        }
+
+        private void movDireita() {
+            String aux;
+            aux = Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1];
+            Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1] = ghostVermelho1.getIcone() + "";
+            Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    Thread.interrupted();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostVermelho1.setColuna(ghostVermelho1.getColuna() + 1);
+            ghostVermelho1.setDirecao('R');
+        }
 
     }
 
