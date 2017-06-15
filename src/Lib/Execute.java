@@ -374,7 +374,7 @@ public class Execute {
                         pac.setLinha(pac.getLinha() - 1);
                         pac.setDirecao('U');
                         System.out.println(pac.toString());
-//
+
                     } else som.parado();
                     //Se achou Fantasma Lilas {$}
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||

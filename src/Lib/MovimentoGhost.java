@@ -331,7 +331,7 @@ public class MovimentoGhost {
             ghostAzul.setDirecao('U');
         }
 
-        //
+
         private void movBaixo() {
             String aux;
             aux = Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()];
