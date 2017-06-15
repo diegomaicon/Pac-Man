@@ -11,10 +11,10 @@ import static Lib.Execute.pac;
 public class MovimentoGhost {
 
     private static Ghost ghostVermelho1 = new Ghost(10, 17, ' ', 'K', '.');
-    private Ghost ghostVermelho12;
     private static Ghost ghostAzul = new Ghost(10, 19, ' ', '%', '.');
     private static Ghost ghostLilas = new Ghost(10, 20, ' ', '$', '.');
     private static Ghost ghostLaranja = new Ghost(10, 18, ' ', '@', '.');
+    private Ghost ghostVermelho12;
 
     public MovimentoGhost() {
     }
@@ -31,7 +31,7 @@ public class MovimentoGhost {
      * Classe Fantasma Lilas, muda direção de acordo com direção do Pacman
      */
     public static class MovimentoGhostLilas extends Thread {
-        public void run() {
+        public synchronized void run() {
             boolean flag = true;
             do {
                 String aux = "";
@@ -48,8 +48,10 @@ public class MovimentoGhost {
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
                             movBaixo();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
-                            movDireita();
-                            ghostLilas.setDirecao('D');
+                            do {
+                                movDireita();
+                            } while (pac.getDirecao().equals("D"));
+
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals(" ")) {
                             movDireita();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
@@ -128,7 +130,7 @@ public class MovimentoGhost {
                         break;
                 }
                 try {
-                    sleep(200);
+                    currentThread().sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -212,7 +214,8 @@ public class MovimentoGhost {
      * Classe Fantasma Azul, muda direção de Contrária com direção do Pacman
      */
     public static class MovimentoGhostAzul extends Thread {
-        public void run() {
+
+        public synchronized void run() {
             boolean flag = true;
             do {
                 String aux = "";
@@ -307,7 +310,7 @@ public class MovimentoGhost {
                         break;
                 }
                 try {
-                    sleep(200);
+                    currentThread().sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -390,7 +393,72 @@ public class MovimentoGhost {
 
 
     public static class MovimentoGhostLaranja extends Thread {
-        public void run() {
+        private static Integer[][] PassouPosAbsoluta() {
+            Integer[][] posAbs;
+            posAbs = new Integer[17][2];
+            posAbs[0][0] = 1;
+            posAbs[0][1] = 1;
+            posAbs[1][0] = 19;
+            posAbs[1][1] = 1;
+
+            posAbs[2][0] = 1;
+            posAbs[2][1] = 35;
+            posAbs[3][0] = 19;
+            posAbs[3][1] = 35;
+
+            posAbs[4][0] = 10;
+            posAbs[4][1] = 5;
+            posAbs[5][0] = 4;
+            posAbs[5][1] = 9;
+
+            posAbs[6][0] = 15;
+            posAbs[6][1] = 10;
+            posAbs[7][0] = 10;
+            posAbs[7][1] = 11;
+
+            posAbs[8][0] = 1;
+            posAbs[8][1] = 17;
+            posAbs[9][0] = 4;
+            posAbs[9][1] = 22;
+
+            posAbs[10][0] = 8;
+            posAbs[10][1] = 19;
+            posAbs[11][0] = 13;
+            posAbs[11][1] = 18;
+
+            posAbs[12][0] = 15;
+            posAbs[12][1] = 23;
+            posAbs[13][0] = 19;
+            posAbs[13][1] = 17;
+
+            posAbs[14][0] = 14;
+            posAbs[14][1] = 31;
+            posAbs[15][0] = 4;
+            posAbs[15][1] = 29;
+
+            posAbs[16][0] = 10;
+            posAbs[16][1] = 30;
+
+
+            int coluna = pac.getColuna();
+            int linha = pac.getLinha();
+            for (int i = 0; i < 17; i++) {
+                if ((posAbs[i][0] == linha) && (posAbs[i][1] == coluna)) {
+                    Integer[][] coordenada;
+                    coordenada = new Integer[1][2];
+                    coordenada[0][0] = linha;
+                    coordenada[0][1] = coluna;
+                    return coordenada;
+                }
+            }
+            Integer[][] coordenada;
+            coordenada = new Integer[1][2];
+            coordenada[0][0] = -1;
+            coordenada[0][1] = -1;
+            return coordenada;
+        }
+
+        public synchronized void run() {
             int destinoLinha = 10; //Valores iniciais
             int destinoColuna = 17;
             boolean flag = true;
@@ -414,7 +482,7 @@ public class MovimentoGhost {
                         ghostLaranja.setLinha(ghostLaranja.getLinha() - 2);
                     } else if ((destinoLinha - ghostLaranja.getLinha() < 0) && ((!Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()].equals("#")))) {
                         movCima();
-                    } else if ((destinoLinha - ghostLaranja.getLinha() > 0) && ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("#"))) && ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-")))) {
+                    } else if ((destinoLinha - ghostLaranja.getLinha() > 0) && (!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("#")) && (!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-"))) {
                         movBaixo();
                     } else if ((destinoColuna - ghostLaranja.getColuna() < 0) && ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1].equals("#")))) {
                         movEsquerda();
@@ -423,7 +491,7 @@ public class MovimentoGhost {
                     } else {
                         if ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1].equals("#")) && (ghostLaranja.getDirecao() != 'L')) {
                             movDireita();
-                        } else if ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("#")) && (!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-")) && (ghostLaranja.getDirecao() != 'D')) {
+                        } else if ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("#")) && (!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-")) && (ghostLaranja.getDirecao() != 'D') && (!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-"))) {
                             movBaixo();
                         } else if ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1].equals("#")) && (ghostLaranja.getDirecao() != 'R')) {
                             movEsquerda();
@@ -434,7 +502,7 @@ public class MovimentoGhost {
 
 
                 try {
-                    sleep(200);
+                    currentThread().sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -514,76 +582,11 @@ public class MovimentoGhost {
             ghostLaranja.setDirecao('R');
         }
 
-        private static Integer[][] PassouPosAbsoluta() {
-            Integer[][] posAbs;
-            posAbs = new Integer[17][2];
-            posAbs[0][0] = 1;
-            posAbs[0][1] = 1;
-            posAbs[1][0] = 19;
-            posAbs[1][1] = 1;
-
-            posAbs[2][0] = 1;
-            posAbs[2][1] = 35;
-            posAbs[3][0] = 19;
-            posAbs[3][1] = 35;
-
-            posAbs[4][0] = 10;
-            posAbs[4][1] = 5;
-            posAbs[5][0] = 4;
-            posAbs[5][1] = 9;
-
-            posAbs[6][0] = 15;
-            posAbs[6][1] = 10;
-            posAbs[7][0] = 10;
-            posAbs[7][1] = 11;
-
-            posAbs[8][0] = 1;
-            posAbs[8][1] = 17;
-            posAbs[9][0] = 4;
-            posAbs[9][1] = 22;
-
-            posAbs[10][0] = 8;
-            posAbs[10][1] = 19;
-            posAbs[11][0] = 13;
-            posAbs[11][1] = 18;
-
-            posAbs[12][0] = 15;
-            posAbs[12][1] = 23;
-            posAbs[13][0] = 19;
-            posAbs[13][1] = 17;
-
-            posAbs[14][0] = 14;
-            posAbs[14][1] = 31;
-            posAbs[15][0] = 4;
-            posAbs[15][1] = 29;
-
-            posAbs[16][0] = 10;
-            posAbs[16][1] = 30;
-
-
-            int coluna = pac.getColuna();
-            int linha = pac.getLinha();
-            for (int i = 0; i < 17; i++) {
-                if ((posAbs[i][0] == linha) && (posAbs[i][1] == coluna)) {
-                    Integer[][] coordenada;
-                    coordenada = new Integer[1][2];
-                    coordenada[0][0] = linha;
-                    coordenada[0][1] = coluna;
-                    return coordenada;
-                }
-            }
-            Integer[][] coordenada;
-            coordenada = new Integer[1][2];
-            coordenada[0][0] = -1;
-            coordenada[0][1] = -1;
-            return coordenada;
-        }
-
 
     }
 
     public static class MovimentoGhostVermelho1 extends Thread {
-        public void run() {
+        public synchronized void run() {
 
             int i = 0;
             boolean flag = true;
@@ -650,7 +653,7 @@ public class MovimentoGhost {
                         }
                     }
                     try {
-                        sleep(200);
+                        currentThread().sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

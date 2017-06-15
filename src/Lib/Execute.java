@@ -34,7 +34,8 @@ public class Execute {
     static ArrayList<String> listaTransicao = new ArrayList<String>();
 
     /**
-     *  Lê arquivo de mexa.txt, e monta matriz com barreiras, pacman, frutas.
+     * Lê arquivo de mexa.txt, e monta matriz com barreiras, pacman, frutas.
+     *
      * @return
      */
     public boolean carregarMesa() {
@@ -150,16 +151,17 @@ public class Execute {
      * Monta casinha de dos Fantasma
      */
     private void casaGhosts() {
-        mesa[9][18]="-";
-        mesa[9][19]="-";
-        mesa[10][17]=" ";
-        mesa[10][18]=" ";
-        mesa[10][19]=" ";
-        mesa[10][20]=" ";
+        mesa[9][18] = "-";
+        mesa[9][19] = "-";
+        mesa[10][17] = " ";
+        mesa[10][18] = " ";
+        mesa[10][19] = " ";
+        mesa[10][20] = " ";
     }
 
     /**
      * Monta barreira de cada linha lida do Arquivo
+     *
      * @param linha
      */
     private void montaBarreira(String linha) {
@@ -199,6 +201,7 @@ public class Execute {
 
     /**
      * Imprime mesa na Tela
+     *
      * @return
      */
     private String imprimeMesa() {
@@ -222,6 +225,7 @@ public class Execute {
 
     /**
      * Retira caracter especiais da String, do arquivo mesa.txt
+     *
      * @param linha
      * @return
      */
@@ -292,10 +296,11 @@ public class Execute {
     }
 
     /**
-     *  Realiza movimento de do Pacman
+     * Realiza movimento de do Pacman
+     *
      * @return
      */
-    public boolean movimenta() {
+    public synchronized boolean movimenta() {
 
         Tela tela = new Tela();
         tela.setTitle("          Pac-man LFA         ");
@@ -316,6 +321,7 @@ public class Execute {
         Thread laranja = new Thread(new MovimentoGhost.MovimentoGhostLaranja());
         Thread vermelho1 = new Thread(new MovimentoGhost.MovimentoGhostVermelho1());
         startThreads(lilas, azul, laranja, vermelho1);
+
         do {
 
             switch (pac.getDirecao()) {
@@ -337,17 +343,10 @@ public class Execute {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setLinha(pac.getLinha() + 1);
                         pac.setDirecao('D');
-                        System.out.println(pac.toString());
+                        //   System.out.println(pac.toString());
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
+                    if (isAchouGhost()) {
                         som.parado();
                         paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
@@ -374,18 +373,11 @@ public class Execute {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setLinha(pac.getLinha() - 1);
                         pac.setDirecao('U');
-                        System.out.println(pac.toString());
+                        //     System.out.println(pac.toString());
 
                     } else som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
+                    if (isAchouGhost()) {
                         som.parado();
                         paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
@@ -395,7 +387,7 @@ public class Execute {
                     }
                     break;
                 case 'L': //Esquerda
-                    if (pac.getColuna() == 1 && mesa[pac.getLinha()][pac.getColuna()-1].equals(" ")) {
+                    if (pac.getColuna() == 1 && mesa[pac.getLinha()][pac.getColuna() - 1].equals(" ")) {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(colunas + 1);
                         break;
@@ -406,7 +398,7 @@ public class Execute {
                             if (ligaSom) som.comendoMoeda();
                         } else if (ligaSom) som.parado();
                         //Bonus de 100 pontos
-                        if (mesa[pac.getLinha()][pac.getColuna()-1].equals("o")) {
+                        if (mesa[pac.getLinha()][pac.getColuna() - 1].equals("o")) {
                             score += 100;
                             if (ligaSom) {
                                 som.comendoFruta();
@@ -416,17 +408,10 @@ public class Execute {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(pac.getColuna() - 1);
                         pac.setDirecao('L');
-                        System.out.println(pac.toString());
+                        //System.out.println(pac.toString());
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
+                    if (isAchouGhost()) {
                         som.parado();
                         paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
@@ -436,7 +421,7 @@ public class Execute {
                     }
                     break;
                 case 'R': //Direita
-                    if (pac.getColuna() == colunas  && mesa[pac.getLinha()][pac.getColuna() + 1].equals(" ")) {
+                    if (pac.getColuna() == colunas && mesa[pac.getLinha()][pac.getColuna() + 1].equals(" ")) {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(0);
                         break;
@@ -447,7 +432,7 @@ public class Execute {
                             if (ligaSom) som.comendoMoeda();
                         } else if (ligaSom) som.parado();
                         //Bonus de 100 pontos
-                        if (mesa[pac.getLinha()][pac.getColuna()+1].equals("o")) {
+                        if (mesa[pac.getLinha()][pac.getColuna() + 1].equals("o")) {
                             score += 100;
                             if (ligaSom) {
                                 som.comendoFruta();
@@ -458,18 +443,11 @@ public class Execute {
                         mesa[pac.getLinha()][pac.getColuna()] = " ";
                         pac.setColuna(pac.getColuna() + 1);
                         pac.setDirecao('R');
-                        System.out.println(pac.toString());
+
 
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
-                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K")) {
+                    if (isAchouGhost()) {
                         som.parado();
                         paraGhosts(lilas, azul, laranja, vermelho1);
                         tela.gameOver.setVisible(true);
@@ -482,6 +460,7 @@ public class Execute {
 
             tela.label.setText("Score : " + score);
             tela.texto.setText(imprimeMesa());
+
 
             try {
                 //Velocidade de execução
@@ -496,11 +475,29 @@ public class Execute {
         return false;
     }
 
+    private boolean isAchouGhost() {
+        return mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
+                mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
+                mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
+                mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
+                mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
+                mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@") ||
+                mesa[pac.getLinha() + 1][pac.getColuna()].equals("K") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("K") ||
+                mesa[pac.getLinha()][pac.getColuna() - 1].equals("K") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("K");
+    }
+
     private void startThreads(Thread lilas, Thread azul, Thread laranja, Thread vernelho1) {
+        laranja.setDaemon(true);
+        azul.setDaemon(true);
+        lilas.setDaemon(true);
+        vernelho1.setDaemon(true);
+
+
         laranja.start();
         azul.start();
         lilas.start();
         vernelho1.start();
+
     }
 
     private void paraGhosts(Thread lilas, Thread azul, Thread laranja, Thread vermelho1) {
@@ -512,9 +509,10 @@ public class Execute {
 
     /**
      * Verifica qual botão do direcional foi precionado e muda a direção do Pacman
+     *
      * @param tela
      */
-    private void verificaDirecional(Tela tela) {
+    private synchronized void verificaDirecional(Tela tela) {
         tela.texto.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {
                 int aux;
