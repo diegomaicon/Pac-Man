@@ -398,11 +398,11 @@ public class MovimentoGhost {
                 int x = PassouPosAbsoluta()[0][0];
                 int y = PassouPosAbsoluta()[0][1];
                 if ((x == -1) && (y == -1)) {
-                    // //System.out.println("nao");
+                    // System.out.println("nao");
                 } else {
                     destinoLinha = x;
                     destinoColuna = y;
-                    //  //System.out.println("Posição absoluta - linha:" + destinoLinha + "  coluna:" + destinoColuna);
+                    //System.out.println("Posição absoluta - linha:" + destinoLinha + "  coluna:" + destinoColuna);
                 }
 
 
@@ -590,14 +590,14 @@ public class MovimentoGhost {
             boolean comecou = false;
             char dir = 'u';
             do {
-                //System.out.println("aqui");
-                ////System.out.println("linha:"+pac.getLinha()+" Coluna:"+pac.getColuna());
+                System.out.println("aqui");
+                //System.out.println("linha:"+pac.getLinha()+" Coluna:"+pac.getColuna());
                 if ((pac.getLinha() != 10) || (pac.getColuna() != 4)) {
                     comecou = true;
                 }
 
                 while (comecou) {
-                    //System.out.println("começou");
+                    System.out.println("começou");
                     if (i == 0) {
                         movDireita();
                         i++;
