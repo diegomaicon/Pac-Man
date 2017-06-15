@@ -143,7 +143,7 @@ public class MovimentoGhost {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -161,7 +161,7 @@ public class MovimentoGhost {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -179,7 +179,7 @@ public class MovimentoGhost {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -197,7 +197,7 @@ public class MovimentoGhost {
                 ghostLilas.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -302,7 +302,6 @@ public class MovimentoGhost {
                             } else {
                                 movEsquerda();
                             }
-
                         }
                         break;
                 }
@@ -323,7 +322,7 @@ public class MovimentoGhost {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -341,7 +340,7 @@ public class MovimentoGhost {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -359,7 +358,7 @@ public class MovimentoGhost {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -377,7 +376,7 @@ public class MovimentoGhost {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -450,7 +449,7 @@ public class MovimentoGhost {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -468,7 +467,7 @@ public class MovimentoGhost {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -486,7 +485,7 @@ public class MovimentoGhost {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
@@ -504,7 +503,7 @@ public class MovimentoGhost {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
-                    currentThread().interrupt();
+                    this.interrupt();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
