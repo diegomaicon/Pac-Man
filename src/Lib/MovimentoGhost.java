@@ -669,7 +669,7 @@ public class MovimentoGhost {
             Execute.mesa[ghostVermelho1.getLinha() - 1][ghostVermelho1.getColuna()] = ghostVermelho1.getIcone() + "";
             Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
             if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
-                ghostLaranja.setSub(aux.charAt(0));
+                ghostVermelho1.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
                     Thread.interrupted();
@@ -687,7 +687,7 @@ public class MovimentoGhost {
             Execute.mesa[ghostVermelho1.getLinha() + 1][ghostVermelho1.getColuna()] = ghostVermelho1.getIcone() + "";
             Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
             if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
-                ghostLaranja.setSub(aux.charAt(0));
+                ghostVermelho1.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
                     Thread.interrupted();
@@ -705,7 +705,7 @@ public class MovimentoGhost {
             Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() - 1] = ghostVermelho1.getIcone() + "";
             Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
             if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
-                ghostLaranja.setSub(aux.charAt(0));
+                ghostVermelho1.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
                     Thread.interrupted();
@@ -724,7 +724,7 @@ public class MovimentoGhost {
             Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna() + 1] = ghostVermelho1.getIcone() + "";
             Execute.mesa[ghostVermelho1.getLinha()][ghostVermelho1.getColuna()] = ghostVermelho1.getSub() + "";
             if (aux.charAt(0) != '$' && aux.charAt(0) != '%' && aux.charAt(0) != '@') {
-                ghostLaranja.setSub(aux.charAt(0));
+                ghostVermelho1.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
                     Thread.interrupted();
