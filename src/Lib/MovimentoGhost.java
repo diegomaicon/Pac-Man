@@ -22,7 +22,7 @@ public class MovimentoGhost {
     public static void init() {
         Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
         Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
-        //  Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
+        Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
     }
 
 
@@ -48,6 +48,7 @@ public class MovimentoGhost {
                             movBaixo();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
                             movDireita();
+                            ghostLilas.setDirecao('D');
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals(" ")) {
                             movDireita();
                         } else if (Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1].equals("#") && Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1].equals("#") && !Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()].equals("#")) {
@@ -138,8 +139,14 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()];
             Execute.mesa[ghostLilas.getLinha() - 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
                 ghostLilas.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostLilas.setLinha(ghostLilas.getLinha() - 1);
             ghostLilas.setDirecao('U');
@@ -150,8 +157,14 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()];
             Execute.mesa[ghostLilas.getLinha() + 1][ghostLilas.getColuna()] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
                 ghostLilas.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostLilas.setLinha(ghostLilas.getLinha() + 1);
             ghostLilas.setDirecao('D');
@@ -162,20 +175,32 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1];
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() - 1] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
                 ghostLilas.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostLilas.setColuna(ghostLilas.getColuna() - 1);
             ghostLilas.setDirecao('L');
         }
 
-        private static void movDireita() {
+        private void movDireita() {
             String aux;
             aux = Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1];
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna() + 1] = ghostLilas.getIcone() + "";
             Execute.mesa[ghostLilas.getLinha()][ghostLilas.getColuna()] = ghostLilas.getSub() + "";
-            if (aux.charAt(0) != '%') {
+            if (aux.charAt(0) != '%' && aux.charAt(0) != '@') {
                 ghostLilas.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostLilas.setColuna(ghostLilas.getColuna() + 1);
             ghostLilas.setDirecao('R');
@@ -294,8 +319,14 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()];
             Execute.mesa[ghostAzul.getLinha() - 1][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
                 ghostAzul.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostAzul.setLinha(ghostAzul.getLinha() - 1);
             ghostAzul.setDirecao('U');
@@ -306,8 +337,14 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()];
             Execute.mesa[ghostAzul.getLinha() + 1][ghostAzul.getColuna()] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
                 ghostAzul.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostAzul.setLinha(ghostAzul.getLinha() + 1);
             ghostAzul.setDirecao('D');
@@ -318,31 +355,233 @@ public class MovimentoGhost {
             aux = Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1];
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() - 1] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
                 ghostAzul.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostAzul.setColuna(ghostAzul.getColuna() - 1);
             ghostAzul.setDirecao('L');
         }
 
-        private static void movDireita() {
+        private void movDireita() {
             String aux;
             aux = Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1];
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna() + 1] = ghostAzul.getIcone() + "";
             Execute.mesa[ghostAzul.getLinha()][ghostAzul.getColuna()] = ghostAzul.getSub() + "";
-            if (aux.charAt(0) != '$') {
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '@') {
                 ghostAzul.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             ghostAzul.setColuna(ghostAzul.getColuna() + 1);
             ghostAzul.setDirecao('R');
         }
     }
 
+
+    public static class MovimentoGhostLaranja extends Thread {
+        public void run() {
+            int destinoLinha = 10; //Valores iniciais
+            int destinoColuna = 17;
+            boolean flag = true;
+            do {
+                int x = PassouPosAbsoluta()[0][0];
+                int y = PassouPosAbsoluta()[0][1];
+                if ((x == -1) && (y == -1)) {
+                    // System.out.println("nao");
+                } else {
+                    destinoLinha = x;
+                    destinoColuna = y;
+                    System.out.println("Posição absoluta - linha:" + destinoLinha + "  coluna:" + destinoColuna);
+                }
+
+
+                //Sair da casa
+                if (pac.getDirecao() != 'I')
+                    if (Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()].equals("-")) {
+                        Execute.mesa[ghostLaranja.getLinha() - 2][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
+                        Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = " ";
+                        ghostLaranja.setLinha(ghostLaranja.getLinha() - 2);
+                    } else if ((destinoLinha - ghostLaranja.getLinha() < 0) && ((!Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()].equals("#")))) {
+                        movCima();
+                    } else if ((destinoLinha - ghostLaranja.getLinha() > 0) && ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("#"))) && ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-")))) {
+                        movBaixo();
+                    } else if ((destinoColuna - ghostLaranja.getColuna() < 0) && ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1].equals("#")))) {
+                        movEsquerda();
+                    } else if ((destinoColuna - ghostLaranja.getColuna() > 0) && ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1].equals("#")))) {
+                        movDireita();
+                    } else {
+                        if ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1].equals("#")) && (ghostLaranja.getDirecao() != 'L')) {
+                            movDireita();
+                        } else if ((!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("#")) && (!Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()].equals("-")) && (ghostLaranja.getDirecao() != 'D')) {
+                            movBaixo();
+                        } else if ((!Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1].equals("#")) && (ghostLaranja.getDirecao() != 'R')) {
+                            movEsquerda();
+                        } else if ((!Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()].equals("#")) && (ghostLaranja.getDirecao() != 'U')) {
+                            movCima();
+                        }
+                    }
+
+
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            } while (flag);
+        }
+
+        private void movCima() {
+            String aux;
+            aux = Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()];
+            Execute.mesa[ghostLaranja.getLinha() - 1][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
+            Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostLaranja.setLinha(ghostLaranja.getLinha() - 1);
+            ghostLaranja.setDirecao('U');
+        }
+
+        private void movBaixo() {
+            String aux;
+            aux = Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()];
+            Execute.mesa[ghostLaranja.getLinha() + 1][ghostLaranja.getColuna()] = ghostLaranja.getIcone() + "";
+            Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostLaranja.setLinha(ghostLaranja.getLinha() + 1);
+            ghostLaranja.setDirecao('D');
+        }
+
+        private void movEsquerda() {
+            String aux;
+            aux = Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1];
+            Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() - 1] = ghostLaranja.getIcone() + "";
+            Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostLaranja.setColuna(ghostLaranja.getColuna() - 1);
+            ghostLaranja.setDirecao('L');
+        }
+
+        private void movDireita() {
+            String aux;
+            aux = Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1];
+            Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna() + 1] = ghostLaranja.getIcone() + "";
+            Execute.mesa[ghostLaranja.getLinha()][ghostLaranja.getColuna()] = ghostLaranja.getSub() + "";
+            if (aux.charAt(0) != '$' && aux.charAt(0) != '%') {
+                ghostLaranja.setSub(aux.charAt(0));
+            } else if (aux.charAt(0) == 'C') {
+                try {
+                    currentThread().interrupt();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            ghostLaranja.setColuna(ghostLaranja.getColuna() + 1);
+            ghostLaranja.setDirecao('R');
+        }
+
+        private static Integer[][] PassouPosAbsoluta() {
+            Integer[][] posAbs;
+            posAbs = new Integer[17][2];
+            posAbs[0][0] = 1;
+            posAbs[0][1] = 1;
+            posAbs[1][0] = 19;
+            posAbs[1][1] = 1;
+
+            posAbs[2][0] = 1;
+            posAbs[2][1] = 35;
+            posAbs[3][0] = 19;
+            posAbs[3][1] = 35;
+
+            posAbs[4][0] = 10;
+            posAbs[4][1] = 5;
+            posAbs[5][0] = 4;
+            posAbs[5][1] = 9;
+
+            posAbs[6][0] = 15;
+            posAbs[6][1] = 10;
+            posAbs[7][0] = 10;
+            posAbs[7][1] = 11;
+
+            posAbs[8][0] = 1;
+            posAbs[8][1] = 17;
+            posAbs[9][0] = 4;
+            posAbs[9][1] = 22;
+
+            posAbs[10][0] = 8;
+            posAbs[10][1] = 19;
+            posAbs[11][0] = 13;
+            posAbs[11][1] = 18;
+
+            posAbs[12][0] = 15;
+            posAbs[12][1] = 23;
+            posAbs[13][0] = 19;
+            posAbs[13][1] = 17;
+
+            posAbs[14][0] = 14;
+            posAbs[14][1] = 31;
+            posAbs[15][0] = 4;
+            posAbs[15][1] = 29;
+
+            posAbs[16][0] = 10;
+            posAbs[16][1] = 30;
+
+
+            int coluna = pac.getColuna();
+            int linha = pac.getLinha();
+            for (int i = 0; i < 17; i++) {
+                if ((posAbs[i][0] == linha) && (posAbs[i][1] == coluna)) {
+                    Integer[][] coordenada;
+                    coordenada = new Integer[1][2];
+                    coordenada[0][0] = linha;
+                    coordenada[0][1] = coluna;
+                    return coordenada;
+                }
+            }
+            Integer[][] coordenada;
+            coordenada = new Integer[1][2];
+            coordenada[0][0] = -1;
+            coordenada[0][1] = -1;
+            return coordenada;
+        }
+
+
+    }
+
 }
-
-
-
-
 
 /*
     public void verificaD(String estado) {

@@ -28,7 +28,7 @@ public class Execute {
 
     Som som = new Som();
     //Ativa e desativa som
-    private static boolean ligaSom = true;
+    private static boolean ligaSom = false;
 
     static ArrayList<ArrayList<String>> listaTrans = new ArrayList<ArrayList<String>>();
     static ArrayList<String> listaTransicao = new ArrayList<String>();
@@ -311,10 +311,14 @@ public class Execute {
 
         int cont = 0;
         MovimentoGhost.init();
-        new Thread(new MovimentoGhost.MovimentoGhostLilas()).start();
-        new Thread(new MovimentoGhost.MovimentoGhostAzul()).start();
-
+        Thread lilas = new Thread(new MovimentoGhost.MovimentoGhostLilas());
+        Thread azul = new Thread(new MovimentoGhost.MovimentoGhostAzul());
+        Thread laranja = new Thread(new MovimentoGhost.MovimentoGhostLaranja());
+        laranja.start();
+        azul.start();
+        lilas.start();
         do {
+
             switch (pac.getDirecao()) {
                 case 'D': // Para Baixo
                     if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#") && !mesa[pac.getLinha() + 1][pac.getColuna()].equals("-")) {
@@ -340,8 +344,11 @@ public class Execute {
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
                         som.parado();
+                        paraGhosts(lilas, azul, laranja);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -373,8 +380,11 @@ public class Execute {
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
                         som.parado();
+                        paraGhosts(lilas, azul, laranja);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -409,8 +419,11 @@ public class Execute {
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
                         som.parado();
+                        paraGhosts(lilas, azul, laranja);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -447,8 +460,11 @@ public class Execute {
                     if(mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                             mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
                             mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
-                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%")) {
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("%") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("%") ||
+                            mesa[pac.getLinha() + 1][pac.getColuna()].equals("@") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("@") ||
+                            mesa[pac.getLinha()][pac.getColuna() - 1].equals("@") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("@")) {
                         som.parado();
+                        paraGhosts(lilas, azul, laranja);
                         tela.gameOver.setVisible(true);
                         tela.texto.setText(imprimeMesa());
                         som.gameOver();
@@ -471,6 +487,12 @@ public class Execute {
         } while (cont < parada);
 
         return false;
+    }
+
+    private void paraGhosts(Thread lilas, Thread azul, Thread laranja) {
+        lilas.interrupt();
+        azul.interrupt();
+        laranja.interrupt();
     }
 
     /**
