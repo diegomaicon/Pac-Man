@@ -46,8 +46,10 @@ public class Som {
         }catch(Exception e){}
     }
 
-   /* Se já jogando, não comece a tocar novamente*/
-    public void comendoMoeda(){
+    /**
+     * Se já jogando, não comece a tocar novamente
+     */
+    public synchronized void comendoMoeda() {
         /* Se já estiver jogando, não comece a tocar novamente! */
         if (!stopped)
             return;
@@ -57,19 +59,28 @@ public class Som {
         comendo.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    public void parado(){
+    /**
+     * Não reproduz som quando não tem moeda
+     */
+    public synchronized void parado(){
         stopped=true;
         comendo.stop();
         comendo.setFramePosition(0);
     }
 
-    public void comendoFruta(){
+    /**
+     * Reproduz com quando come Bônus
+     */
+    public synchronized void comendoFruta(){
         fruit.stop();
         fruit.setFramePosition(0);
         fruit.loop(0);
     }
 
-    public void gameOver() {
+    /**
+     * Reproduz som fim de Jogo
+     */
+    public synchronized void gameOver() {
         gamOver.setFramePosition(0);
         gamOver.loop(0);
     }

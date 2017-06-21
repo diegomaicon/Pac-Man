@@ -475,7 +475,7 @@ public class Execute {
         return false;
     }
 
-    private boolean isAchouGhost() {
+    private synchronized boolean isAchouGhost() {
         return mesa[pac.getLinha() + 1][pac.getColuna()].equals("$") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("$") ||
                 mesa[pac.getLinha()][pac.getColuna() - 1].equals("$") || mesa[pac.getLinha()][pac.getColuna() + 1].equals("$") ||
                 mesa[pac.getLinha() + 1][pac.getColuna()].equals("%") || mesa[pac.getLinha() - 1][pac.getColuna()].equals("%") ||
@@ -500,7 +500,7 @@ public class Execute {
 
     }
 
-    private void paraGhosts(Thread lilas, Thread azul, Thread laranja, Thread vermelho1) {
+    private synchronized void paraGhosts(Thread lilas, Thread azul, Thread laranja, Thread vermelho1) {
         lilas.interrupt();
         azul.interrupt();
         laranja.interrupt();
@@ -514,7 +514,7 @@ public class Execute {
      */
     private synchronized void verificaDirecional(Tela tela) {
         tela.texto.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent evt) {
+            public synchronized void keyPressed(KeyEvent evt) {
                 int aux;
                 int keyCode = evt.getKeyCode();
 

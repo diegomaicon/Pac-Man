@@ -14,52 +14,52 @@ public class Ghost {
     }
 
 
-    public Character getSub() {
-        return sub;
-    }
-
-    public void setSub(Character sub) {
-        this.sub = sub;
-    }
-
     public Ghost(int linha, int coluna, Character direcao, Character icone, Character sub) {
         this.linha = linha;
         this.coluna = coluna;
-
         this.direcao = direcao;
         this.icone = icone;
         this.sub = sub;
     }
 
-    public Character getDirecao() {
+    public synchronized Character getDirecao() {
         return direcao;
     }
 
-    public void setDirecao(Character direcao) {
+    public synchronized void setDirecao(Character direcao) {
         this.direcao = direcao;
     }
 
-    public Character getIcone() {
+    public synchronized Character getIcone() {
         return icone;
     }
 
-    public void setIcone(Character icone) {
+    public synchronized void setIcone(Character icone) {
         this.icone = icone;
     }
 
-    public int getLinha() {
+    public synchronized int getLinha() {
         return linha;
     }
 
-    public void setLinha(int linha) {
+    public synchronized void setLinha(int linha) {
         this.linha = linha;
     }
 
-    public int getColuna() {
+    public synchronized int getColuna() {
         return coluna;
     }
 
-    public void setColuna(int coluna) {
+    public synchronized void setColuna(int coluna) {
         this.coluna = coluna;
     }
+
+    public synchronized Character getSub() {
+        return sub;
+    }
+
+    public synchronized void setSub(Character sub) {
+        this.sub = sub;
+    }
+
 }

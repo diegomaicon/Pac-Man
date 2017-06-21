@@ -17,32 +17,32 @@ public class Pac {
     public Pac() {
     }
 
-    public int getLinha() {
+    public synchronized int getLinha() {
         return linha;
     }
 
-    public void setLinha(int linha) {
+    public synchronized void setLinha(int linha) {
         this.linha = linha;
     }
 
-    public int getColuna() {
+    public synchronized int getColuna() {
         return coluna;
     }
 
-    public void setColuna(int coluna) {
+    public synchronized void setColuna(int coluna) {
         this.coluna = coluna;
     }
 
-    public Character getDirecao() {
+    public synchronized Character getDirecao() {
         return direcao;
     }
 
-    public void setDirecao(Character direcao) {
+    public synchronized void setDirecao(Character direcao) {
         this.direcao = direcao;
     }
 
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return "Pac{" +
                 "linha=" + linha +
                 ", coluna=" + coluna +
