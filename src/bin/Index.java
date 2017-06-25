@@ -19,7 +19,7 @@ public class Index {
         try {
 			Execute e = new Execute();
 			Thread threadExecuta = new Thread(e);
-			threadExecuta.setPriority(Thread.MAX_PRIORITY);
+			threadExecuta.setPriority(Thread.MIN_PRIORITY);
 			threadExecuta.start();
 		   
 	} catch (Exception e) {

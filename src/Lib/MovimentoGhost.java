@@ -4,7 +4,6 @@ import Modelo.Ghost;
 
 import static Lib.Execute.colunas;
 import static Lib.Execute.pac;
-import static java.lang.Thread.sleep;
 
 /**
  * Created by Diego on 23/05/2017.
@@ -150,7 +149,7 @@ public class MovimentoGhost {
                         break;
                 }
                 try {
-                    sleep(170);
+                    this.wait(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -330,7 +329,7 @@ public class MovimentoGhost {
                         break;
                 }
                 try {
-                    Thread.sleep(180);
+                    this.wait(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -524,7 +523,7 @@ public class MovimentoGhost {
 
 
                 try {
-                    Thread.sleep(190);
+                    this.wait(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -672,7 +671,7 @@ public class MovimentoGhost {
                         }
                     }
                     try {
-                        Thread.sleep(200);
+                        this.wait(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

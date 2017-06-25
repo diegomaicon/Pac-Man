@@ -402,7 +402,8 @@ public class Execute implements Runnable {
             try {
 
                 //Velocidade de execução
-                Thread.sleep(200);
+                this.wait(200);
+                ;
             } catch (Exception e) {
                 // TODO: handle exception
             }
@@ -435,10 +436,10 @@ public class Execute implements Runnable {
 
     private void startThreads(Thread lilas, Thread azul, Thread laranja, Thread vernelho1) {
 
-        laranja.setPriority(Thread.MIN_PRIORITY);
-        azul.setPriority(Thread.MIN_PRIORITY);
-        lilas.setPriority(Thread.MIN_PRIORITY);
-        vernelho1.setPriority(Thread.MIN_PRIORITY);
+        laranja.setPriority(Thread.MAX_PRIORITY);
+        azul.setPriority(Thread.MAX_PRIORITY);
+        lilas.setPriority(Thread.MAX_PRIORITY);
+        vernelho1.setPriority(Thread.MAX_PRIORITY);
 
         laranja.start();
         azul.start();
