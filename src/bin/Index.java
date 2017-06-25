@@ -17,8 +17,10 @@ public class Index {
             JOptionPane.showMessageDialog(null, "Arquivo \"mesa.txt\" n�o encontrado ou n�o existe !");
 
         try {
-		   ma.movimenta();
-			
+			Execute e = new Execute();
+			Thread threadExecuta = new Thread(e);
+			threadExecuta.setPriority(Thread.MAX_PRIORITY);
+			threadExecuta.start();
 		   
 	} catch (Exception e) {
 		// TODO: handle exception

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class Execute {
+public class Execute implements Runnable {
 
     static int qtdFruta;
     static int parada;
@@ -245,62 +245,15 @@ public class Execute {
         return linha;
     }
 
-    public boolean carregarAutomato() {
 
-        String nome = "auto1.txt";
-        try {
-            FileReader arqAuto = new FileReader(nome);
-            BufferedReader lerArqAuto = new BufferedReader(arqAuto);
-            String linha = lerArqAuto.readLine();
-            String[] temp = new String[2];
-            // ################################################### Monta Mesa
-            // ################################################
-
-            // ################################################### Barreira
-            // ################################################
-            linha = lerArqAuto.readLine(); // Le 2� linha
-            linha = limpaString(linha);
-
-            temp = new String[254];
-            temp = linha.split(" ");
-            linha = lerArqAuto.readLine(); // Le 2� linha
-
-            // ################################################
-            linha = lerArqAuto.readLine(); // Le 3� linha
-            linha = linha.replaceAll("[(]", "");
-            linha = limpaString(linha);
-            temp = new String[254];
-            temp = linha.split(",");
-
-            int aux = 0;
-            for (int i = 0; i < temp.length; i++) {
-                if (!temp[i].equals("")) {
-                    listaTransicao.add(temp[i]);
-                    aux++;
-                    if (aux % 7 == 0) {
-                        listaTrans.add(listaTransicao);
-                        listaTransicao = new ArrayList<String>();
-                    }
-                }
-
-            }
-
-            arqAuto.close();
-
-        } catch (IOException e) {
-
-            return false;
-        }
-
-        return true;
-    }
 
     /**
      * Realiza movimento de do Pacman
      *
      * @return
      */
-    public synchronized boolean movimenta() {
+    @Override
+    public synchronized void run() {
 
         Tela tela = new Tela();
         tela.setTitle("          Pac-man LFA         ");
@@ -327,6 +280,11 @@ public class Execute {
             switch (pac.getDirecao()) {
                 case 'D': // Para Baixo
                     if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#") && !mesa[pac.getLinha() + 1][pac.getColuna()].equals("-")) {
+                        mesa[pac.getLinha() + 1][pac.getColuna()] = "C";
+                        mesa[pac.getLinha()][pac.getColuna()] = " ";
+                        pac.setLinha(pac.getLinha() + 1);
+                        pac.setDirecao('D');
+
                         if (mesa[pac.getLinha() + 1][pac.getColuna()].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
@@ -339,25 +297,21 @@ public class Execute {
                             }
                         }
 
-                        mesa[pac.getLinha() + 1][pac.getColuna()] = "C";
-                        mesa[pac.getLinha()][pac.getColuna()] = " ";
-                        pac.setLinha(pac.getLinha() + 1);
-                        pac.setDirecao('D');
-                        //   System.out.println(pac.toString());
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if (isAchouGhost()) {
-                        som.parado();
-                        paraGhosts(lilas, azul, laranja, vermelho1);
-                        tela.gameOver.setVisible(true);
-                        tela.texto.setText(imprimeMesa());
-                        som.gameOver();
-                        return false;
+                    if (isAchouGhost() || MovimentoGhost.olha()) {
+                        gameOver(tela, lilas, azul, laranja, vermelho1);
+                        return;
                     }
                     break;
 
                 case 'U': // Para Cima
                     if (!mesa[pac.getLinha() - 1][pac.getColuna()].equals("#")) {
+                        mesa[pac.getLinha() - 1][pac.getColuna()] = "C";
+                        mesa[pac.getLinha()][pac.getColuna()] = " ";
+                        pac.setLinha(pac.getLinha() - 1);
+                        pac.setDirecao('U');
+
                         if (mesa[pac.getLinha() - 1][pac.getColuna()].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
@@ -369,21 +323,12 @@ public class Execute {
                                 som.comendoFruta();
                             }
                         }
-                        mesa[pac.getLinha() - 1][pac.getColuna()] = "C";
-                        mesa[pac.getLinha()][pac.getColuna()] = " ";
-                        pac.setLinha(pac.getLinha() - 1);
-                        pac.setDirecao('U');
-                        //     System.out.println(pac.toString());
 
                     } else som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if (isAchouGhost()) {
-                        som.parado();
-                        paraGhosts(lilas, azul, laranja, vermelho1);
-                        tela.gameOver.setVisible(true);
-                        tela.texto.setText(imprimeMesa());
-                        som.gameOver();
-                        return false;
+                    if (isAchouGhost() || MovimentoGhost.olha()) {
+                        gameOver(tela, lilas, azul, laranja, vermelho1);
+                        return;
                     }
                     break;
                 case 'L': //Esquerda
@@ -393,6 +338,11 @@ public class Execute {
                         break;
                     }
                     if (!mesa[pac.getLinha()][pac.getColuna() - 1].equals("#")) {
+                        mesa[pac.getLinha()][pac.getColuna() - 1] = "C";
+                        mesa[pac.getLinha()][pac.getColuna()] = " ";
+                        pac.setColuna(pac.getColuna() - 1);
+                        pac.setDirecao('L');
+
                         if (mesa[pac.getLinha()][pac.getColuna() - 1].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
@@ -404,20 +354,12 @@ public class Execute {
                                 som.comendoFruta();
                             }
                         }
-                        mesa[pac.getLinha()][pac.getColuna() - 1] = "C";
-                        mesa[pac.getLinha()][pac.getColuna()] = " ";
-                        pac.setColuna(pac.getColuna() - 1);
-                        pac.setDirecao('L');
-                        //System.out.println(pac.toString());
+
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
                     if (isAchouGhost()) {
-                        som.parado();
-                        paraGhosts(lilas, azul, laranja, vermelho1);
-                        tela.gameOver.setVisible(true);
-                        tela.texto.setText(imprimeMesa());
-                        som.gameOver();
-                        return false;
+                        gameOver(tela, lilas, azul, laranja, vermelho1);
+                        return;
                     }
                     break;
                 case 'R': //Direita
@@ -427,6 +369,11 @@ public class Execute {
                         break;
                     }
                     if (!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")) {
+                        mesa[pac.getLinha()][pac.getColuna() + 1] = "C";
+                        mesa[pac.getLinha()][pac.getColuna()] = " ";
+                        pac.setColuna(pac.getColuna() + 1);
+                        pac.setDirecao('R');
+
                         if (mesa[pac.getLinha()][pac.getColuna() + 1].equals(".")) {
                             score += 10;
                             if (ligaSom) som.comendoMoeda();
@@ -439,21 +386,11 @@ public class Execute {
                             }
                         }
 
-                        mesa[pac.getLinha()][pac.getColuna() + 1] = "C";
-                        mesa[pac.getLinha()][pac.getColuna()] = " ";
-                        pac.setColuna(pac.getColuna() + 1);
-                        pac.setDirecao('R');
-
-
                     } else if (ligaSom) som.parado();
                     //Se achou Fantasma Lilas {$}
-                    if (isAchouGhost()) {
-                        som.parado();
-                        paraGhosts(lilas, azul, laranja, vermelho1);
-                        tela.gameOver.setVisible(true);
-                        tela.texto.setText(imprimeMesa());
-                        som.gameOver();
-                        return false;
+                    if (isAchouGhost() || MovimentoGhost.olha()) {
+                        gameOver(tela, lilas, azul, laranja, vermelho1);
+                        return;
                     }
                     break;
             }
@@ -463,6 +400,7 @@ public class Execute {
 
 
             try {
+
                 //Velocidade de execução
                 Thread.sleep(200);
             } catch (Exception e) {
@@ -470,9 +408,18 @@ public class Execute {
             }
 
             cont++;
-        } while (cont < parada);
+        } while (!MovimentoGhost.olha());
 
-        return false;
+        return;
+    }
+
+
+    private void gameOver(Tela tela, Thread lilas, Thread azul, Thread laranja, Thread vermelho1) {
+        som.parado();
+        paraGhosts(lilas, azul, laranja, vermelho1);
+        tela.gameOver.setVisible(true);
+        tela.texto.setText(imprimeMesa());
+        som.gameOver();
     }
 
     private synchronized boolean isAchouGhost() {
@@ -487,11 +434,11 @@ public class Execute {
     }
 
     private void startThreads(Thread lilas, Thread azul, Thread laranja, Thread vernelho1) {
-        laranja.setDaemon(true);
-        azul.setDaemon(true);
-        lilas.setDaemon(true);
-        vernelho1.setDaemon(true);
 
+        laranja.setPriority(Thread.MIN_PRIORITY);
+        azul.setPriority(Thread.MIN_PRIORITY);
+        lilas.setPriority(Thread.MIN_PRIORITY);
+        vernelho1.setPriority(Thread.MIN_PRIORITY);
 
         laranja.start();
         azul.start();
@@ -523,7 +470,6 @@ public class Execute {
                         if (!mesa[pac.getLinha() + 1][pac.getColuna()].equals("#")) {
                             if (pac.getDirecao() != 'D') {
                                 pac.setDirecao('D');
-                                System.out.println(pac.toString());
                             }
                         }
                         break;
@@ -531,7 +477,6 @@ public class Execute {
                         if (!mesa[pac.getLinha() - 1][pac.getColuna()].equals("#")) {
                             if (pac.getDirecao() != 'U') {
                                 pac.setDirecao('U');
-                                System.out.println(pac.toString());
                             }
                         }
                         break;
@@ -539,7 +484,6 @@ public class Execute {
                         if (!mesa[pac.getLinha()][pac.getColuna() - 1].equals("#")) {
                             if (pac.getDirecao() != 'L') {
                                 pac.setDirecao('L');
-                                System.out.println(pac.toString());
                             }
                         }
                         break;
@@ -547,7 +491,6 @@ public class Execute {
                         if (!mesa[pac.getLinha()][pac.getColuna() + 1].equals("#")) {
                             if (pac.getDirecao() != 'R') {
                                 pac.setDirecao('R');
-                                System.out.println(pac.toString());
                             }
                         }
                         break;
@@ -555,5 +498,6 @@ public class Execute {
             }
         });
     }
+
 
 }

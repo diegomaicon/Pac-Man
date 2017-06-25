@@ -2,11 +2,8 @@ package bin;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-import static java.awt.event.KeyEvent.VK_LEFT;
-public class Tela extends JFrame{
+public class Tela extends JFrame {
    private JPanel painel;
    private JPanel pMesa;
    private JPanel pPlacar;

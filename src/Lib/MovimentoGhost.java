@@ -4,6 +4,7 @@ import Modelo.Ghost;
 
 import static Lib.Execute.colunas;
 import static Lib.Execute.pac;
+import static java.lang.Thread.sleep;
 
 /**
  * Created by Diego on 23/05/2017.
@@ -14,9 +15,28 @@ public class MovimentoGhost {
     private static Ghost ghostAzul = new Ghost(10, 19, ' ', '%', '.');
     private static Ghost ghostLilas = new Ghost(10, 20, ' ', '$', '.');
     private static Ghost ghostLaranja = new Ghost(10, 18, ' ', '@', '.');
-    private Ghost ghostVermelho12;
 
     public MovimentoGhost() {
+    }
+
+    public synchronized static boolean olha() {
+        if (ghostAzul.getSub().equals('C')) {
+            System.out.println("Achou C");
+            return true;
+        }
+        if (ghostVermelho1.getSub().equals('C')) {
+            System.out.println("Achou C");
+            return true;
+        }
+        if (ghostLilas.getSub().equals('C')) {
+            System.out.println("Achou C");
+            return true;
+        }
+        if (ghostLaranja.getSub().equals('C')) {
+            System.out.println("Achou C");
+            return true;
+        }
+        return false;
     }
 
     public static void init() {
@@ -30,7 +50,7 @@ public class MovimentoGhost {
     /**
      * Classe Fantasma Lilas, muda direção de acordo com direção do Pacman
      */
-    public static class MovimentoGhostLilas extends Thread {
+    public static class MovimentoGhostLilas implements Runnable {
         public synchronized void run() {
             boolean flag = true;
             do {
@@ -130,7 +150,7 @@ public class MovimentoGhost {
                         break;
                 }
                 try {
-                    currentThread().sleep(200);
+                    sleep(170);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -213,7 +233,7 @@ public class MovimentoGhost {
     /**
      * Classe Fantasma Azul, muda direção de Contrária com direção do Pacman
      */
-    public static class MovimentoGhostAzul extends Thread {
+    public static class MovimentoGhostAzul implements Runnable {
 
         public synchronized void run() {
             boolean flag = true;
@@ -310,7 +330,7 @@ public class MovimentoGhost {
                         break;
                 }
                 try {
-                    currentThread().sleep(200);
+                    Thread.sleep(180);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -326,6 +346,7 @@ public class MovimentoGhost {
                 ghostAzul.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
+
                     Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -392,7 +413,7 @@ public class MovimentoGhost {
     }
 
 
-    public static class MovimentoGhostLaranja extends Thread {
+    public static class MovimentoGhostLaranja implements Runnable {
         private static Integer[][] PassouPosAbsoluta() {
             Integer[][] posAbs;
             posAbs = new Integer[17][2];
@@ -501,8 +522,9 @@ public class MovimentoGhost {
                     }
 
 
+
                 try {
-                    currentThread().sleep(200);
+                    Thread.sleep(190);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -537,6 +559,7 @@ public class MovimentoGhost {
                 ghostLaranja.setSub(aux.charAt(0));
             } else if (aux.charAt(0) == 'C') {
                 try {
+
                     Thread.interrupted();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -585,7 +608,7 @@ public class MovimentoGhost {
 
     }
 
-    public static class MovimentoGhostVermelho1 extends Thread {
+    public static class MovimentoGhostVermelho1 implements Runnable {
         public synchronized void run() {
 
             int i = 0;
@@ -593,14 +616,10 @@ public class MovimentoGhost {
             boolean comecou = false;
             char dir = 'u';
             do {
-                System.out.println("aqui");
-                //System.out.println("linha:"+pac.getLinha()+" Coluna:"+pac.getColuna());
                 if ((pac.getLinha() != 10) || (pac.getColuna() != 4)) {
                     comecou = true;
                 }
-
                 while (comecou) {
-                    System.out.println("começou");
                     if (i == 0) {
                         movDireita();
                         i++;
@@ -653,7 +672,7 @@ public class MovimentoGhost {
                         }
                     }
                     try {
-                        currentThread().sleep(200);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -742,1062 +761,3 @@ public class MovimentoGhost {
     }
 
 }
-
-/*
-    public void verificaD(String estado) {
-        int aux;
-        if (estado.equals("D")) {
-            //Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q1";
-                formiga[3] = "T";
-            }
-
-
-            // frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q2";
-            }
-
-            // frete
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q3";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q4";
-                formiga[3] = "T";
-            }
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q5";
-                formiga[3] = "M";
-            }
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q6";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q7";
-                formiga[3] = "M";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q8";
-            }
-
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q9";
-                formiga[3] = "M";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q10";
-                formiga[3] = "T";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q11";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q12";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q13";
-                formiga[3] = "M";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q14";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q15";
-                formiga[3] = "T";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q16";
-                formiga[3] = "M";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q17";
-                formiga[3] = "M";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q18";
-                formiga[3] = "T";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q19";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q20";
-            }
-
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q21";
-                formiga[3] = "T";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q22";
-                formiga[3] = "M";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q23";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q24";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q25";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q26";
-                formiga[3] = "T";
-            }
-
-        }
-    }
-
-
-    public void verificaT(String estado) {
-
-        int aux;
-        if (estado.equals("T")) {
-            // frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1] + 1)][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q1";
-                formiga[3] = "E";
-            }
-
-
-            // frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q2";
-            }
-
-            // frete
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q3";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q4";
-                formiga[3] = "E";
-            }
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q5";
-                formiga[3] = "D";
-            }
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q6";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q7";
-                formiga[3] = "D";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q8";
-            }
-
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q9";
-                formiga[3] = "D";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q10";
-                formiga[3] = "E";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q11";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2] + 1)].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q12";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q13";
-                formiga[3] = "D";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q14";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q15";
-                formiga[3] = "E";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q16";
-                formiga[3] = "D";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q17";
-                formiga[3] = "D";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q18";
-                formiga[3] = "E";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q19";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q20";
-            }
-
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q21";
-                formiga[3] = "E";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q22";
-                formiga[3] = "D";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q23";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q24";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                ;
-                formiga[0] = "q25";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q26";
-                formiga[3] = "E";
-            }
-
-        }
-    }
-
-    public void verificaM(String estado) {
-
-        int aux;
-        if (estado.equals("M")) {
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q1";
-                formiga[3] = "D";
-            }
-
-
-            // frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q2";
-            }
-
-            // frete pronto
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q3";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q4";
-                formiga[3] = "D";
-            }
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q5";
-                formiga[3] = "E";
-            }
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q6";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q7";
-                formiga[3] = "E";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q8";
-            }
-
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q9";
-                formiga[3] = "E";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q10";
-                formiga[3] = "D";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q11";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q12";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q13";
-                formiga[3] = "E";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q14";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q15";
-                formiga[3] = "D";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q16";
-                formiga[3] = "E";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q17";
-                formiga[3] = "E";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q18";
-                formiga[3] = "D";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q19";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q20";
-            }
-
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q21";
-                formiga[3] = "D";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q22";
-                formiga[3] = "E";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q23";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q24";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                ;
-                formiga[0] = "q25";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q26";
-                formiga[3] = "D";
-            }
-
-        }
-    }
-
-    public void verificaE(String estado) {
-
-        int aux;
-        if (estado.equals("E")) {
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q1";
-                formiga[3] = "M";
-            }
-
-
-            // frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q2";
-            }
-
-            // frete
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q3";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q4";
-                formiga[3] = "M";
-            }
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q5";
-                formiga[3] = "T";
-            }
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q6";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q7";
-                formiga[3] = "T";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q8";
-            }
-
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q9";
-                formiga[3] = "T";
-            }
-
-            //Direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q10";
-                formiga[3] = "T";
-            }
-
-            // Frente pronto
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) - 1] = "C";
-                aux = Integer.parseInt(formiga[2]) - 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q11";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q12";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q13";
-                formiga[3] = "M";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q14";
-            }
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q15";
-                formiga[3] = "T";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals(" ") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q16";
-                formiga[3] = "M";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q17";
-                formiga[3] = "M";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q18";
-                formiga[3] = "T";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals(" ") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q19";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals(" ")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q20";
-            }
-
-
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q21";
-                formiga[3] = "T";
-            }
-
-            // Esquerda
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) - 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q22";
-                formiga[3] = "M";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q23";
-            }
-
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q24";
-            }
-
-            // Frente
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("a") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("#") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("#")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1] = "C";
-                aux = Integer.parseInt(formiga[2]) + 1;
-                formiga[2] = aux + "";
-                formiga[0] = "q25";
-            }
-            // direita
-            if (mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2]) + 1].equals("#") && mesa[Integer.parseInt(formiga[1]) - 1][Integer.parseInt(formiga[2])].equals("a") && mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])].equals("a")) {
-                mesa[Integer.parseInt(formiga[1])][Integer.parseInt(formiga[2])] = " ";
-                mesa[Integer.parseInt(formiga[1]) + 1][Integer.parseInt(formiga[2])] = "C";
-                aux = Integer.parseInt(formiga[1]) + 1;
-                formiga[1] = aux + "";
-                formiga[0] = "q26";
-                formiga[3] = "T";
-            }
-
-        }
-    }
-    */
-
